@@ -7,5 +7,16 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Daniel McQuiston <daniel.pro@dehugo.net>",
-  "license": "MIT"
+  "license": "MIT",
+  "devDependencies": {
+    "eslint": "^3.12.2"
+  },
+  "dependencies": {
+    "request": "^2.79.0",
+    "request-promise-native": "^1.0.3"
+  },
+  "repository": {
+    "type" : "git",
+    "url" : "https://github.com/danielmcq/node-icomfort.git"
+  }
 }
