@@ -1,51 +1,68 @@
 'use strict';
 
-const ENV = {
-    USERNAME: process.env['ICOMFORT_USERNAME'],
-    PASSWORD: process.env['ICOMFORT_PASSWORD'],
-    GATEWAY_SN: process.env['ICOMFORT_GATEWAY_SERIAL'],
-};
-const auth = {username: ENV.USERNAME, password: ENV.PASSWORD};
-
 const iComfortClient = require('../index');
-const icomfort = new iComfortClient(auth);
 
-const getBuildingsInfoParams = {UserId:ENV.USERNAME};
-icomfort.getBuildingsInfo(getBuildingsInfoParams)
-    .then(console.log)
-    .catch(console.error);
 
-const getGatewayInfoParams = {GatewaySN:ENV.GATEWAY_SN, TempUnit: 0};
-icomfort.getGatewayInfo(getGatewayInfoParams)
-    .then(console.log)
-    .catch(console.error);
+describe('', () => {
+    const ENV = {
+        USERNAME: process.env['ICOMFORT_USERNAME'],
+        PASSWORD: process.env['ICOMFORT_PASSWORD'],
+        GATEWAY_SN: process.env['ICOMFORT_GATEWAY_SERIAL'],
+    };
+    // const auth = {username: ENV.USERNAME, password: ENV.PASSWORD};
+    const auth = {username: ENV.USERNAME, password: 'wrong'};
+    // const auth = {};
 
-const getGatewaysAlertsParams = {gatewaysn:ENV.GATEWAY_SN};
-icomfort.getGatewaysAlerts(getGatewaysAlertsParams)
-    .then(console.log)
-    .catch(console.error);
+    let icomfort;
 
-const getSystemsInfoParams = {UserId:ENV.USERNAME};
-icomfort.getSystemsInfo(getSystemsInfoParams)
-    .then(console.log)
-    .catch(console.error);
+    before('creates an iComfort client', () => icomfort = new iComfortClient(auth));
 
-const getThermostatInfoListParams = {GatewaySN:ENV.GATEWAY_SN, TempUnit: 0};
-icomfort.getThermostatInfoList(getThermostatInfoListParams)
-    .then(console.log)
-    .catch(console.error);
+    it('gets buildings info (getBuildingsInfo)', () => {
+        const getBuildingsInfoParams = {UserId:ENV.USERNAME};
 
-const getThermostatLookupInfoParams = {gatewaysn:ENV.GATEWAY_SN, name: 'all'};
-icomfort.getThermostatLookupInfo(getThermostatLookupInfoParams)
-    .then(console.log)
-    .catch(console.error);
+        return icomfort.getBuildingsInfo(getBuildingsInfoParams);
+    });
 
-const getThermostatScheduleInfoParams = {gatewaysn:ENV.GATEWAY_SN};
-icomfort.getThermostatScheduleInfo(getThermostatScheduleInfoParams)
-    .then(console.log)
-    .catch(console.error);
+    it('gets gateway info (getGatewayInfo)', () => {
+        const getGatewayInfoParams = {GatewaySN:ENV.GATEWAY_SN, TempUnit: 0};
 
-const validateUserData = {UserName:ENV.USERNAME,lang_nbr:0};
-icomfort.validateUser(validateUserData)
-    .then(console.log)
-    .catch(console.error);
+        return icomfort.getGatewayInfo(getGatewayInfoParams);
+    });
+
+    it('gets gateway alerts (getGatewaysAlerts)', () => {
+        const getGatewaysAlertsParams = {gatewaysn:ENV.GATEWAY_SN};
+
+        return icomfort.getGatewaysAlerts(getGatewaysAlertsParams);
+    });
+
+    it('gets system info (getSystemsInfo)', () => {
+        const getSystemsInfoParams = {UserId:ENV.USERNAME};
+
+        return icomfort.getSystemsInfo(getSystemsInfoParams);
+    });
+
+    it('gets thermostat info list (getThermostatInfoList)', () => {
+        const getThermostatInfoListParams = {GatewaySN:ENV.GATEWAY_SN, TempUnit: 0};
+
+        return icomfort.getThermostatInfoList(getThermostatInfoListParams);
+    });
+
+    it('gets thermostat lookup info (getThermostatLookupInfo)', () => {
+        const getThermostatLookupInfoParams = {gatewaysn:ENV.GATEWAY_SN, name: 'all'};
+
+        return icomfort.getThermostatLookupInfo(getThermostatLookupInfoParams);
+    });
+
+    it('gets thermostat schedule info (getThermostatScheduleInfo)', () => {
+        const getThermostatScheduleInfoParams = {gatewaysn:ENV.GATEWAY_SN};
+
+        return icomfort.getThermostatScheduleInfo(getThermostatScheduleInfoParams);
+    });
+
+    it('validates user (validateUser)', () => {
+        const validateUserData = {UserName:ENV.USERNAME,lang_nbr:0};
+
+        return icomfort.validateUser(validateUserData);
+    });
+});
+
