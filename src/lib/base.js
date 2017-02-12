@@ -16,6 +16,6 @@ const getFullUri = endpoint => url.format(ICOMFORT.url)+ICOMFORT.basePath+endpoi
 
 module.exports = {
     getFullUri,
-    doGet: (path, params, auth) => request.get(getFullUri(path), {auth, json: true, qs: params}),
-    doPut: (path, params, data, auth) => request.put(getFullUri(path), {auth, body: data, json: true, qs: params}),
+    doGet: (path, auth, params) => request.get(getFullUri(path), {auth, json: true, qs: params}),
+    doPut: (path, auth, params, data) => request.put(getFullUri(path), {auth, body: data, json: true, qs: params}),
 };

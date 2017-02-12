@@ -1,6 +1,5 @@
 'use strict';
 
-const icomfort = require('../index');
 const ENV = {
     USERNAME: process.env['ICOMFORT_USERNAME'],
     PASSWORD: process.env['ICOMFORT_PASSWORD'],
@@ -8,42 +7,45 @@ const ENV = {
 };
 const auth = {username: ENV.USERNAME, password: ENV.PASSWORD};
 
+const iComfortClient = require('../index');
+const icomfort = new iComfortClient(auth);
+
 const getBuildingsInfoParams = {UserId:ENV.USERNAME};
-icomfort.getBuildingsInfo(getBuildingsInfoParams, auth)
+icomfort.getBuildingsInfo(getBuildingsInfoParams)
     .then(console.log)
     .catch(console.error);
 
 const getGatewayInfoParams = {GatewaySN:ENV.GATEWAY_SN, TempUnit: 0};
-icomfort.getGatewayInfo(getGatewayInfoParams, auth)
+icomfort.getGatewayInfo(getGatewayInfoParams)
     .then(console.log)
     .catch(console.error);
 
 const getGatewaysAlertsParams = {gatewaysn:ENV.GATEWAY_SN};
-icomfort.getGatewaysAlerts(getGatewaysAlertsParams, auth)
+icomfort.getGatewaysAlerts(getGatewaysAlertsParams)
     .then(console.log)
     .catch(console.error);
 
 const getSystemsInfoParams = {UserId:ENV.USERNAME};
-icomfort.getSystemsInfo(getSystemsInfoParams, auth)
+icomfort.getSystemsInfo(getSystemsInfoParams)
     .then(console.log)
     .catch(console.error);
 
 const getThermostatInfoListParams = {GatewaySN:ENV.GATEWAY_SN, TempUnit: 0};
-icomfort.getThermostatInfoList(getThermostatInfoListParams, auth)
+icomfort.getThermostatInfoList(getThermostatInfoListParams)
     .then(console.log)
     .catch(console.error);
 
 const getThermostatLookupInfoParams = {gatewaysn:ENV.GATEWAY_SN, name: 'all'};
-icomfort.getThermostatLookupInfo(getThermostatLookupInfoParams, auth)
+icomfort.getThermostatLookupInfo(getThermostatLookupInfoParams)
     .then(console.log)
     .catch(console.error);
 
 const getThermostatScheduleInfoParams = {gatewaysn:ENV.GATEWAY_SN};
-icomfort.getThermostatScheduleInfo(getThermostatScheduleInfoParams, auth)
+icomfort.getThermostatScheduleInfo(getThermostatScheduleInfoParams)
     .then(console.log)
     .catch(console.error);
 
 const validateUserData = {UserName:ENV.USERNAME,lang_nbr:0};
-icomfort.validateUser(validateUserData, auth)
+icomfort.validateUser(validateUserData)
     .then(console.log)
     .catch(console.error);

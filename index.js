@@ -4,13 +4,33 @@ const base = require('./src/lib/base');
 
 const definitions = require('./src/lib/definitions');
 
-module.exports = {
-    getBuildingsInfo: base.doGet.bind(base.doGet, definitions.getBuildingsInfo.path),
-    getGatewayInfo: base.doGet.bind(base.doGet, definitions.getGatewayInfo.path),
-    getGatewaysAlerts: base.doGet.bind(base.doGet, definitions.getGatewaysAlerts.path),
-    getSystemsInfo: base.doGet.bind(base.doGet, definitions.getSystemsInfo.path),
-    getThermostatInfoList: base.doGet.bind(base.doGet, definitions.getThermostatInfoList.path),
-    getThermostatLookupInfo: base.doGet.bind(base.doGet, definitions.getThermostatLookupInfo.path),
-    getThermostatScheduleInfo: base.doGet.bind(base.doGet, definitions.getThermostatScheduleInfo.path),
-    validateUser: (params, auth) => base.doPut(definitions.validateUser.path, params, '', auth),
+module.exports = iComfortClient;
+
+function iComfortClient (auth={username, password}) {
+    this.auth = auth;
+}
+
+iComfortClient.prototype.getBuildingsInfo          = function(params) {
+    return base.doGet(definitions.getBuildingsInfo.path, this.auth, params);
+};
+iComfortClient.prototype.getGatewayInfo            = function(params) {
+    return base.doGet(definitions.getGatewayInfo.path, this.auth, params);
+};
+iComfortClient.prototype.getGatewaysAlerts         = function(params) {
+    return base.doGet(definitions.getGatewaysAlerts.path, this.auth, params);
+};
+iComfortClient.prototype.getSystemsInfo            = function(params) {
+    return base.doGet(definitions.getSystemsInfo.path, this.auth, params);
+};
+iComfortClient.prototype.getThermostatInfoList     = function(params) {
+    return base.doGet(definitions.getThermostatInfoList.path, this.auth, params);
+};
+iComfortClient.prototype.getThermostatLookupInfo   = function(params) {
+    return base.doGet(definitions.getThermostatLookupInfo.path, this.auth, params);
+};
+iComfortClient.prototype.getThermostatScheduleInfo = function(params) {
+    return base.doGet(definitions.getThermostatScheduleInfo.path, this.auth, params);
+};
+iComfortClient.prototype.validateUser              = function(params) {
+    return base.doPut(definitions.validateUser.path, this.auth, params, '');
 };
