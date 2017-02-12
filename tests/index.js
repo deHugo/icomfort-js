@@ -1,6 +1,6 @@
 'use strict';
 
-const iComfortClient = require('../index');
+const iComfortClient = require('../src/index.js');
 
 describe('tests the iComfort client', () => {
     const ENV = {

@@ -1,8 +1,8 @@
 'use strict';
 
-const base = require('./src/lib/base');
+const base = require('./lib/base');
 
-const definitions = require('./src/lib/definitions');
+const definitions = require('./lib/definitions');
 
 module.exports = iComfortClient;
 

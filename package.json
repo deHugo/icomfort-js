@@ -2,9 +2,9 @@
   "name": "node-icomfort",
   "version": "0.1.0",
   "description": "A node client for interacting with the Lennox iComfort website",
-  "main": "index.js",
+  "main": "./src/index.js",
   "scripts": {
-    "lint": "./node_modules/.bin/eslint --fix ./",
+    "lint": "./node_modules/.bin/eslint --fix ./src/ ./tests/",
     "test": "./node_modules/.bin/mocha ./tests/"
   },
   "author": "Daniel McQuiston <daniel.pro@dehugo.net>",
