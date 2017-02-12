@@ -9,7 +9,7 @@ export ICOMFORT_USERNAME='your icomfort username'
 export ICOMFORT_PASSWORD='your icomfort password'
 ```
 
-On Windows, you the command is similar:
+On Windows, the command is similar:
 
 ```
 set ICOMFORT_USERNAME='your icomfort username'
