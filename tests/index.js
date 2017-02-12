@@ -1,17 +1,15 @@
 'use strict';
 
+const assert = require('assert');
 const iComfortClient = require('../index');
 
-
-describe('', () => {
+describe('tests the iComfort client', () => {
     const ENV = {
         USERNAME: process.env['ICOMFORT_USERNAME'],
         PASSWORD: process.env['ICOMFORT_PASSWORD'],
         GATEWAY_SN: process.env['ICOMFORT_GATEWAY_SERIAL'],
     };
-    // const auth = {username: ENV.USERNAME, password: ENV.PASSWORD};
-    const auth = {username: ENV.USERNAME, password: 'wrong'};
-    // const auth = {};
+    const auth = {username: ENV.USERNAME, password: ENV.PASSWORD};
 
     let icomfort;
 
@@ -63,6 +61,34 @@ describe('', () => {
         const validateUserData = {UserName:ENV.USERNAME,lang_nbr:0};
 
         return icomfort.validateUser(validateUserData);
+    });
+
+    describe('updates thermostat settings (setThermostatInfo)', () => {
+        let currentSettings;
+
+        before(done => {
+            const getThermostatInfoListParams = {GatewaySN:ENV.GATEWAY_SN, TempUnit: 0};
+
+            icomfort.getThermostatInfoList(getThermostatInfoListParams)
+                .then(res => {
+                    currentSettings = res.tStatInfo.find(tStat => tStat.GatewaySN === ENV.GATEWAY_SN);
+
+                    done();
+                })
+                .catch(done);
+        });
+
+        it('updates the temperature', () => {
+            const newOptions = {
+                Cool_Set_Point: currentSettings.Cool_Set_Point+2,
+                Heat_Set_Point: currentSettings.Heat_Set_Point+2
+            };
+            const newSettings = Object.assign({}, currentSettings, newOptions);
+
+            return icomfort.setThermostatInfo(newSettings);
+        });
+
+        after(() => icomfort.setThermostatInfo(currentSettings));
     });
 });
 

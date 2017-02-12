@@ -55,5 +55,12 @@ module.exports = {
             'UserName': params.USER_ID,
             'lang_nbr': params.LANGUAGE_NBR
         }
+    },
+    setThermostatInfo: {
+        path: "/SetTStatInfo",
+        paramsDef: {
+            "UserId": params.USER_ID,
+            "GatewaySN": params.GATEWAY_SERIAL_NUMBER
+        }
     }
 };

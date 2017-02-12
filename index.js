@@ -34,3 +34,6 @@ iComfortClient.prototype.getThermostatScheduleInfo = function(params) {
 iComfortClient.prototype.validateUser              = function(params) {
     return base.doPut(definitions.validateUser.path, this.auth, params, '');
 };
+iComfortClient.prototype.setThermostatInfo         = function(data) {
+    return base.doPut(definitions.setThermostatInfo.path, this.auth, '', data);
+};
