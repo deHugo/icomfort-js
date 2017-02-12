@@ -26,3 +26,5 @@ If your username and password are correct, all of the tests will pass. If not, a
 
 ## Thanks
 Thanks to [Ian Macdonald](https://github.com/bruman) for his [Ruby iComfort](https://github.com/bruman/ruby-icomfort) repo which helped get me started in the right direction.
+
+Also thanks to [Kate Hall](https://github.com/kate-hall) for being the first to make use of this code. Her project encouraged me to make this code more modular. Check out her integration of this project's code with Amazon's Alexa at [alexa-icomfort](https://github.com/kate-hall/alexa-icomfort).
