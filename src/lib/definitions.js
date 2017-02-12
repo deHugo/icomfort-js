@@ -57,10 +57,10 @@ module.exports = {
         }
     },
     setThermostatInfo: {
-        path: "/SetTStatInfo",
+        path: '/SetTStatInfo',
         paramsDef: {
-            "UserId": params.USER_ID,
-            "GatewaySN": params.GATEWAY_SERIAL_NUMBER
+            'UserId': params.USER_ID,
+            'GatewaySN': params.GATEWAY_SERIAL_NUMBER
         }
     }
 };

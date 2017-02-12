@@ -1,6 +1,5 @@
 'use strict';
 
-const assert = require('assert');
 const iComfortClient = require('../index');
 
 describe('tests the iComfort client', () => {

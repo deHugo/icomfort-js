@@ -6,7 +6,7 @@ const definitions = require('./src/lib/definitions');
 
 module.exports = iComfortClient;
 
-function iComfortClient (auth={username, password}) {
+function iComfortClient (auth={username:null, password:null}) {
     this.auth = auth;
 }
 
