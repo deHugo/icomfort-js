@@ -1,5 +1,5 @@
-# node-icomfort
-A client for the Lennox iComfort services implemented in node.js
+# icomfort-js
+A client for the Lennox iComfort services implemented in JavaScript
 
 ## API
 
