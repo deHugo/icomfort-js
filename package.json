@@ -1,8 +1,15 @@
 {
   "name": "icomfort",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "description": "A JavaScript client for interacting with the Lennox iComfort website",
-  "keywords": ["node", "javascript", "lennox", "icomfort", "thermostat", "automation"],
+  "keywords": [
+    "node",
+    "javascript",
+    "lennox",
+    "icomfort",
+    "thermostat",
+    "automation"
+  ],
   "main": "./src/index.js",
   "scripts": {
     "lint": "./node_modules/.bin/eslint --fix ./src/ ./tests/",
