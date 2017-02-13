@@ -1,7 +1,8 @@
 {
-  "name": "node-icomfort",
+  "name": "icomfort",
   "version": "0.1.0",
-  "description": "A node client for interacting with the Lennox iComfort website",
+  "description": "A JavaScript client for interacting with the Lennox iComfort website",
+  "keywords": ["node", "javascript", "lennox", "icomfort", "thermostat", "automation"],
   "main": "./src/index.js",
   "scripts": {
     "lint": "./node_modules/.bin/eslint --fix ./src/ ./tests/",
@@ -19,6 +20,6 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/danielmcq/node-icomfort.git"
+    "url": "https://github.com/danielmcq/icomfort-js.git"
   }
 }
