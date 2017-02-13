@@ -3,11 +3,11 @@ A client for the Lennox iComfort services implemented in node.js
 
 ## API
 
-All methods of the iComfortClient return promises as their communicate asynchronously with the Lennox iComfort servers via HTTP.
+All methods of the iComfortClient return promises as they communicate asynchronously with the Lennox iComfort servers via HTTP.
 
 Before calling any of the below methods, the client must be instantiated with valid credentials.
 
-```javscript
+```javascript
 const icomfort = new iComfortClient({username: 'valid username', password: 'supersecret'});
 ```
 
@@ -73,7 +73,6 @@ Validates a user account information.
 `data`:
 
 * `UserName` - A valid iComfort username.
-* `lang_nbr` - 'Language Flag'? Unknown use. Set value to __0__.
 
 ### setThermostatInfo(data)
 Updates operating parameters for a thermostat. Can be used to set temperatures.

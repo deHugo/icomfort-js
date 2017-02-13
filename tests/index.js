@@ -57,7 +57,7 @@ describe('tests the iComfort client', () => {
     });
 
     it('validates user (validateUser)', () => {
-        const validateUserData = {UserName:ENV.USERNAME,lang_nbr:0};
+        const validateUserData = {UserName:ENV.USERNAME};
 
         return icomfort.validateUser(validateUserData);
     });
