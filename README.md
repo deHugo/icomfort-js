@@ -11,15 +11,15 @@ Before calling any of the below methods, the client must be instantiated with va
 const icomfort = new iComfortClient({username: 'valid username', password: 'supersecret'});
 ```
 
-[getBuildingsInfo](#getbuildingsinfoparams)
-[getGatewayInfo](#getgatewayinfoparams)
-[getGatewaysAlerts](#getgatewaysalertsparams)
-[getSystemsInfo](#getsystemsinfoparams)
-[getThermostatInfoList](#getthermostatinfolistparams)
-[getThermostatLookupInfo](#getthermostatlookupinfoparams)
-[getThermostatScheduleInfo](#getthermostatscheduleinfoparams)
-[validateUser](#validateuserdata)
-[setThermostatInfo](#setthermostatinfodata)
+* [getBuildingsInfo](#getbuildingsinfoparams)
+* [getGatewayInfo](#getgatewayinfoparams)
+* [getGatewaysAlerts](#getgatewaysalertsparams)
+* [getSystemsInfo](#getsystemsinfoparams)
+* [getThermostatInfoList](#getthermostatinfolistparams)
+* [getThermostatLookupInfo](#getthermostatlookupinfoparams)
+* [getThermostatScheduleInfo](#getthermostatscheduleinfoparams)
+* [validateUser](#validateuserdata)
+* [setThermostatInfo](#setthermostatinfodata)
 
 ### getBuildingsInfo(params)
 
