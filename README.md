@@ -15,7 +15,7 @@ const icomfort = new iComfortClient({username: 'valid username', password: 'supe
 
 Retrieves information about the buildings associated with your my iComfort account.
 
-`params`:
+`params` - *Object*:
 
 * `UserId` - A valid iComfort username.
 
@@ -23,7 +23,7 @@ Retrieves information about the buildings associated with your my iComfort accou
 ### getGatewayInfo(params)
 Retrieves information about a gateway (thermostat) associated with your account.
 
-`params`:
+`params` - *Object*:
 
 * `GatewaySN` - The serial number of a gateway associated with your account. It can be discovered using the `getSystemsInfo` method.
 * `TempUnit` - A integer which indicates which temperature units to use to represent values from the gateway. The value __0__ Corresponds to F (farenheit) and __1__ to C (celsius).
@@ -32,21 +32,21 @@ Retrieves information about a gateway (thermostat) associated with your account.
 ### getGatewaysAlerts(params)
 Retrieves a list of alerts associated with a gateway.
 
-`params`:
+`params` - *Object*:
 
 * `gatewaysn` - The serial number of a gateway associated with your account. It can be discovered using the `getSystemsInfo` method.
 
 ### getSystemsInfo(params)
 Retrieves information about systems associated with your account.
 
-`params`:
+`params` - *Object*:
 
 * `UserId` - A valid iComfort username.
 
 ### getThermostatInfoList(params)
 Lists information for thermostats for an account.
 
-`params`:
+`params` - *Object*:
 
 * `Cancel_Away` - 'Cancel away flag'? Unknown use. Set value to __-1__.
 * `GatewaySN` - The serial number of a gateway associated with your account. It can be discovered using the `getSystemsInfo` method.
@@ -55,7 +55,7 @@ Lists information for thermostats for an account.
 ### getThermostatLookupInfo(params)
 Retrieves list of different parameters possible for a gateway (thermostat).
 
-`params`:
+`params` - *Object*:
 
 * `gatewaysn` - The serial number of a gateway associated with your account. It can be discovered using the `getSystemsInfo` method.
 * `name` - 'Name'? Unknown user. Set value to '__all__'.
@@ -63,14 +63,14 @@ Retrieves list of different parameters possible for a gateway (thermostat).
 ### getThermostatScheduleInfo(params)
 Retrieves a list of schedules for a given thermostat.
 
-`params`:
+`params` - *Object*:
 
 * `gatewaysn` - The serial number of a gateway associated with your account. It can be discovered using the `getSystemsInfo` method.
 
 ### validateUser(data)
 Validates a user account information.
 
-`data`:
+`data` - *Object*:
 
 * `UserName` - A valid iComfort username.
 
@@ -79,7 +79,7 @@ Updates operating parameters for a thermostat. Can be used to set temperatures.
 
 This method requires various properties in its data payload. The best way to use this method is to first get the current thermostat info using the `getThermostatInfoList` method. Then modify properties as needed and use the updated status object as the payload for this method.
 
-`data`:
+`data` - *Object*:
 
 * `Cool_Set_Point` - Maximum temperature before thermostat activates cooling.
 * `Heat_Set_Point` - Minimum temperature before thermostat activates heating.
