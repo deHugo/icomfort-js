@@ -85,6 +85,28 @@ This method requires various properties in its data payload. The best way to use
 * `Heat_Set_Point` - Minimum temperature before thermostat activates heating.
 * `Pref_Temp_Units` - A integer which indicates which temperature units to use to represent values from the gateway. The value __0__ Corresponds to F (farenheit) and __1__ to C (celsius).
 
+#### Example
+
+```javascript
+const icomfort = new iComfortClient({username: 'valid username', password: 'supersecret'});
+
+const myGatewaySN = 'WS99C99999';
+
+icomfort.getThermostatInfoList({Cancel_Away: -1, GatewaySN: myGatewaySN})
+    .then(res => {
+        const currentSettings = res.tStatInfo.find(tStat => tStat.GatewaySN === myGatewaySN);
+
+        const newOptions = {
+            Cool_Set_Point: currentSettings.Cool_Set_Point+2,
+            Heat_Set_Point: currentSettings.Heat_Set_Point+2
+        };
+
+        const newSettings = Object.assign({}, currentSettings, newOptions);
+
+        return icomfort.setThermostatInfo(newSettings);
+    });
+```
+
 ## Testing
 Some very basic tests are implemented using the [Mocha](https://mochajs.org/) testing framework. An npm script has also been defined to fire off the tests. Before running the tests, you will need to define your iComfort username and password in your environment. In Unix/Linux/BSD/mac OS, you can do the following:
 
