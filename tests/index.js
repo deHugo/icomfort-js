@@ -14,6 +14,14 @@ describe('tests the iComfort client', () => {
 
     before('creates an iComfort client', () => icomfort = new iComfortClient(auth));
 
+    it('instantiates the client without the \'new\' keyword', () => {
+        const getBuildingsInfoParams = {UserId:ENV.USERNAME};
+
+        const icomfortClient = iComfortClient(auth);
+
+        return icomfortClient.getBuildingsInfo(getBuildingsInfoParams);
+    });
+
     it('gets buildings info (getBuildingsInfo)', () => {
         const getBuildingsInfoParams = {UserId:ENV.USERNAME};
 

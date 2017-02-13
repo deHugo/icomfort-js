@@ -10,6 +10,8 @@ All methods of the iComfortClient return promises as they communicate asynchrono
 Before calling any of the below methods, the client must be instantiated with valid credentials.
 
 ```javascript
+const icomfort = iComfortClient({username: 'valid username', password: 'supersecret'});
+// or
 const icomfort = new iComfortClient({username: 'valid username', password: 'supersecret'});
 ```
 
