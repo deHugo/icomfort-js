@@ -1,5 +1,7 @@
 'use strict';
 
+const assert = require('assert');
+
 const iComfortClient = require('../src/index.js');
 
 describe('tests the iComfort client', () => {
@@ -19,7 +21,7 @@ describe('tests the iComfort client', () => {
 
         const icomfortClient = iComfortClient(auth);
 
-        return icomfortClient.getBuildingsInfo(getBuildingsInfoParams);
+        assert((icomfortClient instanceof iComfortClient), 'icomfortClient is not an instance of iComfortClient');
     });
 
     it('gets buildings info (getBuildingsInfo)', () => {
