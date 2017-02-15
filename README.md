@@ -33,7 +33,7 @@ Retrieves information about the buildings associated with your my iComfort accou
 
 * `UserId` - A valid iComfort username.
 
-Example Response
+#### Example Response
 
 ```json
 {
@@ -82,7 +82,7 @@ Retrieves information about a gateway (thermostat) associated with your account.
 * `GatewaySN` - The serial number of a gateway associated with your account. It can be discovered using the `getSystemsInfo` method.
 * `TempUnit` - A integer which indicates which temperature units to use to represent values from the gateway. The value __0__ Corresponds to F (farenheit) and __1__ to C (celsius).
 
-Example response
+#### Example Response
 
 ```json
 {
@@ -107,12 +107,42 @@ Retrieves a list of alerts associated with a gateway.
 
 * `gatewaysn` - The serial number of a gateway associated with your account. It can be discovered using the `getSystemsInfo` method.
 
+#### Example Response
+
+```json
+{
+  "Alerts": [],
+  "ReturnStatus": "SUCCESS"
+}
+```
+
+
 ### getSystemsInfo(params)
 Retrieves information about systems associated with your account.
 
 `params` - *Object*:
 
 * `UserId` - A valid iComfort username.
+
+#### Example Response
+
+```json
+{
+  "ReturnStatus": "SUCCESS",
+  "Systems": [
+    {
+      "BuildingID": 999999,
+      "Firmware_Ver": "02.13.0240",
+      "Gateway_SN": "WS99C99999",
+      "RegistrationCompleteFlag": false,
+      "Status": "GOOD",
+      "SystemID": 999998,
+      "System_Name": "My main thermostat"
+    }
+  ]
+}
+```
+
 
 ### getThermostatInfoList(params)
 Lists information for thermostats for an account.
@@ -123,13 +153,226 @@ Lists information for thermostats for an account.
 * `GatewaySN` - The serial number of a gateway associated with your account. It can be discovered using the `getSystemsInfo` method.
 * `TempUnit` - A integer which indicates which temperature units to use to represent values from the gateway. The value __0__ Corresponds to F (farenheit) and __1__ to C (celsius).
 
+#### Example Response
+
+```json
+{
+  "ReturnStatus": "SUCCESS",
+  "tStatInfo": [
+    {
+      "Away_Mode": 0,
+      "Central_Zoned_Away": 2,
+      "ConnectionStatus": "GOOD",
+      "Cool_Set_Point": 85,
+      "DateTime_Mark": "/Date(1487093681823+0000)/",
+      "Fan_Mode": 0,
+      "GMT_To_Local": -25200,
+      "GatewaySN": "WS99C99999",
+      "Golden_Table_Updated": true,
+      "Heat_Set_Point": 73,
+      "Indoor_Humidity": 31,
+      "Indoor_Temp": 73,
+      "Operation_Mode": 3,
+      "Pref_Temp_Units": "0",
+      "Program_Schedule_Mode": "1",
+      "Program_Schedule_Selection": 1,
+      "System_Status": 0,
+      "Zone_Enabled": 1,
+      "Zone_Name": "Zone 1",
+      "Zone_Number": 0,
+      "Zones_Installed": 1
+    }
+  ]
+}
+```
+
+
 ### getThermostatLookupInfo(params)
 Retrieves list of different parameters possible for a gateway (thermostat).
 
 `params` - *Object*:
 
 * `gatewaysn` - The serial number of a gateway associated with your account. It can be discovered using the `getSystemsInfo` method.
-* `name` - 'Name'? Unknown user. Set value to '__all__'.
+* `name` - 'Name'? Unknown use. Set value to '__all__'.
+
+#### Example Response
+
+```json
+{
+  "ReturnStatus": "SUCCESS",
+  "tStatlookupInfo": [
+    {
+      "Lang_Nbr": 0,
+      "ReturnStatus": "SUCCESS",
+      "description": "cool only",
+      "name": "Operation_mode",
+      "sort_order": 0,
+      "value": 2
+    },
+    {
+      "Lang_Nbr": 0,
+      "ReturnStatus": "SUCCESS",
+      "description": "on",
+      "name": "Fan_mode",
+      "sort_order": 0,
+      "value": 1
+    },
+    {
+      "Lang_Nbr": 0,
+      "ReturnStatus": "SUCCESS",
+      "description": "Keep Standard Time",
+      "name": "Daylight_savings",
+      "sort_order": 1,
+      "value": 0
+    },
+    {
+      "Lang_Nbr": 0,
+      "ReturnStatus": "SUCCESS",
+      "description": "auto",
+      "name": "Fan_mode",
+      "sort_order": 1,
+      "value": 0
+    },
+    {
+      "Lang_Nbr": 0,
+      "ReturnStatus": "SUCCESS",
+      "description": "Contact Me",
+      "name": "MessageType",
+      "sort_order": 1,
+      "value": 0
+    },
+    {
+      "Lang_Nbr": 0,
+      "ReturnStatus": "SUCCESS",
+      "description": "heat only",
+      "name": "Operation_mode",
+      "sort_order": 1,
+      "value": 1
+    },
+    {
+      "Lang_Nbr": 0,
+      "ReturnStatus": "SUCCESS",
+      "description": "idle",
+      "name": "System_status",
+      "sort_order": 1,
+      "value": 0
+    },
+    {
+      "Lang_Nbr": 0,
+      "ReturnStatus": "SUCCESS",
+      "description": "",
+      "name": "Fahrenheit",
+      "sort_order": 1,
+      "value": 0
+    },
+    {
+      "Lang_Nbr": 0,
+      "ReturnStatus": "SUCCESS",
+      "description": "",
+      "name": "Celcius",
+      "sort_order": 2,
+      "value": 1
+    },
+    {
+      "Lang_Nbr": 0,
+      "ReturnStatus": "SUCCESS",
+      "description": "heating",
+      "name": "System_status",
+      "sort_order": 2,
+      "value": 1
+    },
+    {
+      "Lang_Nbr": 0,
+      "ReturnStatus": "SUCCESS",
+      "description": "heat or cool",
+      "name": "Operation_mode",
+      "sort_order": 2,
+      "value": 3
+    },
+    {
+      "Lang_Nbr": 0,
+      "ReturnStatus": "SUCCESS",
+      "description": "Need Service",
+      "name": "MessageType",
+      "sort_order": 2,
+      "value": 1
+    },
+    {
+      "Lang_Nbr": 0,
+      "ReturnStatus": "SUCCESS",
+      "description": "Observe Daylight Savings Time",
+      "name": "Daylight_savings",
+      "sort_order": 2,
+      "value": 1
+    },
+    {
+      "Lang_Nbr": 0,
+      "ReturnStatus": "SUCCESS",
+      "description": "circulate",
+      "name": "Fan_mode",
+      "sort_order": 3,
+      "value": 2
+    },
+    {
+      "Lang_Nbr": 0,
+      "ReturnStatus": "SUCCESS",
+      "description": "Need Information on Products",
+      "name": "MessageType",
+      "sort_order": 3,
+      "value": 2
+    },
+    {
+      "Lang_Nbr": 0,
+      "ReturnStatus": "SUCCESS",
+      "description": "off",
+      "name": "Operation_mode",
+      "sort_order": 3,
+      "value": 0
+    },
+    {
+      "Lang_Nbr": 0,
+      "ReturnStatus": "SUCCESS",
+      "description": "cooling",
+      "name": "System_status",
+      "sort_order": 3,
+      "value": 2
+    },
+    {
+      "Lang_Nbr": 0,
+      "ReturnStatus": "SUCCESS",
+      "description": "waiting",
+      "name": "System_status",
+      "sort_order": 4,
+      "value": 3
+    },
+    {
+      "Lang_Nbr": 0,
+      "ReturnStatus": "SUCCESS",
+      "description": "Unit Not Working",
+      "name": "MessageType",
+      "sort_order": 4,
+      "value": 3
+    },
+    {
+      "Lang_Nbr": 0,
+      "ReturnStatus": "SUCCESS",
+      "description": "Other",
+      "name": "MessageType",
+      "sort_order": 5,
+      "value": 4
+    },
+    {
+      "Lang_Nbr": 0,
+      "ReturnStatus": "SUCCESS",
+      "description": "emergency heat",
+      "name": "System_status",
+      "sort_order": 5,
+      "value": 4
+    }
+  ]
+}
+```
+
 
 ### getThermostatScheduleInfo(params)
 Retrieves a list of schedules for a given thermostat.
@@ -138,12 +381,53 @@ Retrieves a list of schedules for a given thermostat.
 
 * `gatewaysn` - The serial number of a gateway associated with your account. It can be discovered using the `getSystemsInfo` method.
 
+#### Example Response
+
+```json
+{
+  "ReturnStatus": "SUCCESS",
+  "tStatScheduleInfo": [
+    {
+      "Schedule_Name": "summer",
+      "Schedule_Number": 0
+    },
+    {
+      "Schedule_Name": "winter",
+      "Schedule_Number": 1
+    },
+    {
+      "Schedule_Name": "spring fall",
+      "Schedule_Number": 2
+    },
+    {
+      "Schedule_Name": "save energy",
+      "Schedule_Number": 3
+    },
+    {
+      "Schedule_Name": "custom",
+      "Schedule_Number": 4
+    }
+  ]
+}
+```
+
+
 ### validateUser(data)
 Validates a user account information.
 
 `data` - *Object*:
 
 * `UserName` - A valid iComfort username.
+
+#### Example Response
+
+```json
+{
+  "msg_code": "SUCCESS",
+  "msg_desc": "Success"
+}
+```
+
 
 ### setThermostatInfo(data)
 Updates operating parameters for a thermostat. Can be used to set temperatures.
@@ -177,6 +461,15 @@ icomfort.getThermostatInfoList({Cancel_Away: -1, GatewaySN: myGatewaySN})
         return icomfort.setThermostatInfo(newSettings);
     });
 ```
+
+#### Example Response
+
+If the update is successful, the number __0__ is returned.
+
+```json
+0
+```
+
 
 ## Testing
 Some very basic tests are implemented using the [Mocha](https://mochajs.org/) testing framework. An npm script has also been defined to fire off the tests. Before running the tests, you will need to define your iComfort username and password in your environment. In Unix/Linux/BSD/mac OS, you can do the following:
