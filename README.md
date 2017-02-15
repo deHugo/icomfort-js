@@ -33,6 +33,46 @@ Retrieves information about the buildings associated with your my iComfort accou
 
 * `UserId` - A valid iComfort username.
 
+Example Response
+
+```json
+{
+  "Buildings": [
+    {
+      "Addr1": "123 Main",
+      "Addr2": "Apt Z",
+      "Age_of_Building": 99,
+      "BuildingAlert": true,
+      "BuildingID": 999999,
+      "BuildingReminder": true,
+      "BuildingSize": 9,
+      "BuildingStyle": 9,
+      "Building_Name": "My house",
+      "City": "Anytown",
+      "Country": "US",
+      "DealerAlerts_DlrWants": false,
+      "DealerAlerts_OwnerAllow": false,
+      "DealerID": 999999,
+      "DealerReminder_DlrWants": false,
+      "DealerReminder_OwnerAllow": false,
+      "DealerTStatView": false,
+      "DefaultBuilding": true,
+      "Latitude": 32.981704,
+      "Longitude": -96.760218,
+      "NotificationEmail": "",
+      "Number_of_Bedrooms": 9,
+      "Number_of_Floors": 9,
+      "Number_of_Occupants": 9,
+      "St_Prov": "ZZ",
+      "UserID": null,
+      "UtilityCompany": "Nationwide Gas Co",
+      "ZIP_PC": "99999"
+    }
+  ],
+  "ReturnStatus": "SUCCESS"
+}
+```
+
 
 ### getGatewayInfo(params)
 Retrieves information about a gateway (thermostat) associated with your account.
