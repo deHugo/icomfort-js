@@ -82,6 +82,23 @@ Retrieves information about a gateway (thermostat) associated with your account.
 * `GatewaySN` - The serial number of a gateway associated with your account. It can be discovered using the `getSystemsInfo` method.
 * `TempUnit` - A integer which indicates which temperature units to use to represent values from the gateway. The value __0__ Corresponds to F (farenheit) and __1__ to C (celsius).
 
+Example response
+
+```json
+{
+  "Cool_Set_Point_High_Limit": 99,
+  "Cool_Set_Point_Low_Limit": 60,
+  "Daylight_Savings_Time": 1,
+  "Heat_Cool_Dead_Band": 3,
+  "Heat_Set_Point_High_Limit": 90,
+  "Heat_Set_Point_Low_Limit": 40,
+  "Pref_Language_Nbr": 0,
+  "Pref_Temp_Unit": "0",
+  "ReturnStatus": "SUCCESS",
+  "SystemID": "999998"
+}
+```
+
 
 ### getGatewaysAlerts(params)
 Retrieves a list of alerts associated with a gateway.
