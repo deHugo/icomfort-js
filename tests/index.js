@@ -4,6 +4,16 @@ const assert = require('assert');
 
 const iComfortClient = require('../src/index.js');
 
+const debugging = Boolean((process.env['NODE_DEBUG'] == 1));
+
+function logResponse (res) {
+    if (debugging) {
+        console.log(JSON.stringify(res, null, 2));
+    }
+
+    return res;
+}
+
 describe('tests the iComfort client', () => {
     const ENV = {
         USERNAME: process.env['ICOMFORT_USERNAME'],
@@ -27,49 +37,49 @@ describe('tests the iComfort client', () => {
     it('gets buildings info (getBuildingsInfo)', () => {
         const getBuildingsInfoParams = {UserId:ENV.USERNAME};
 
-        return icomfort.getBuildingsInfo(getBuildingsInfoParams);
+        return icomfort.getBuildingsInfo(getBuildingsInfoParams).then(logResponse);
     });
 
     it('gets gateway info (getGatewayInfo)', () => {
         const getGatewayInfoParams = {GatewaySN:ENV.GATEWAY_SN, TempUnit: 0};
 
-        return icomfort.getGatewayInfo(getGatewayInfoParams);
+        return icomfort.getGatewayInfo(getGatewayInfoParams).then(logResponse);
     });
 
     it('gets gateway alerts (getGatewaysAlerts)', () => {
         const getGatewaysAlertsParams = {gatewaysn:ENV.GATEWAY_SN};
 
-        return icomfort.getGatewaysAlerts(getGatewaysAlertsParams);
+        return icomfort.getGatewaysAlerts(getGatewaysAlertsParams).then(logResponse);
     });
 
     it('gets system info (getSystemsInfo)', () => {
         const getSystemsInfoParams = {UserId:ENV.USERNAME};
 
-        return icomfort.getSystemsInfo(getSystemsInfoParams);
+        return icomfort.getSystemsInfo(getSystemsInfoParams).then(logResponse);
     });
 
     it('gets thermostat info list (getThermostatInfoList)', () => {
         const getThermostatInfoListParams = {GatewaySN:ENV.GATEWAY_SN, TempUnit: 0};
 
-        return icomfort.getThermostatInfoList(getThermostatInfoListParams);
+        return icomfort.getThermostatInfoList(getThermostatInfoListParams).then(logResponse);
     });
 
     it('gets thermostat lookup info (getThermostatLookupInfo)', () => {
         const getThermostatLookupInfoParams = {gatewaysn:ENV.GATEWAY_SN, name: 'all'};
 
-        return icomfort.getThermostatLookupInfo(getThermostatLookupInfoParams);
+        return icomfort.getThermostatLookupInfo(getThermostatLookupInfoParams).then(logResponse);
     });
 
     it('gets thermostat schedule info (getThermostatScheduleInfo)', () => {
         const getThermostatScheduleInfoParams = {gatewaysn:ENV.GATEWAY_SN};
 
-        return icomfort.getThermostatScheduleInfo(getThermostatScheduleInfoParams);
+        return icomfort.getThermostatScheduleInfo(getThermostatScheduleInfoParams).then(logResponse);
     });
 
     it('validates user (validateUser)', () => {
         const validateUserData = {UserName:ENV.USERNAME};
 
-        return icomfort.validateUser(validateUserData);
+        return icomfort.validateUser(validateUserData).then(logResponse);
     });
 
     describe('updates thermostat settings (setThermostatInfo)', () => {
@@ -94,7 +104,7 @@ describe('tests the iComfort client', () => {
             };
             const newSettings = Object.assign({}, currentSettings, newOptions);
 
-            return icomfort.setThermostatInfo(newSettings);
+            return icomfort.setThermostatInfo(newSettings).then(logResponse);
         });
 
         after(() => icomfort.setThermostatInfo(currentSettings));
