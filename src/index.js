@@ -6,12 +6,12 @@ const definitions = require('./lib/definitions');
 
 module.exports = iComfortClient;
 
-function iComfortClient (auth={username:null, password:null}) {
+function iComfortClient (auth) {
     if (!(this instanceof iComfortClient)) {
         return new iComfortClient(auth);
     }
 
-    this.auth = auth;
+    this.auth = Object.assign({username:null, password: null}, auth);
 }
 
 iComfortClient.prototype.getBuildingsInfo          = function(params) {

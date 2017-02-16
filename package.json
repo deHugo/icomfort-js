@@ -25,6 +25,9 @@
     "request": "^2.79.0",
     "request-promise-native": "^1.0.3"
   },
+  "engines": {
+    "node": ">=4.3.2"
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/deHugo/icomfort-js.git"
