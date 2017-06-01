@@ -62,5 +62,27 @@ module.exports = {
             'UserId': params.USER_ID,
             'GatewaySN': params.GATEWAY_SERIAL_NUMBER
         }
-    }
+    },
+    setHeatPoint: {
+        path: '/Set_HeatPoint',
+        paramsDef: {
+            'UserId': params.USER_ID,
+            'hidden_gateway_SN': params.GATEWAY_SERIAL_NUMBER,
+            'zoneNumber': params.GATEWAY_SERIAL_NUMBER,
+        }
+    },
+    setModeChange: {
+        path: '/Set_ModeChange',
+        paramsDef: {
+            'hidden_gateway_SN': params.GATEWAY_SERIAL_NUMBER,
+            'zoneNumber': params.ZONE_ID,
+            'Current_HeatPoint': params.TEMPERATURE,
+            'Current_CoolPoint': params.TEMPERATURE,
+            'Current_FanValue': params.FAN_MODE,
+            'Program_Schedule_Mode': params.PROGRAM_SCHEDULE_MODE,
+            'Operation_Mode': params.OPERATION_MODE,
+            'Program_Schedule_Selection': params.PROGRAM_SCHEDULE_ID,
+            'Pref_Temp_Units': params.TEMPERATURE_UNIT,
+        }
+    },
 };
