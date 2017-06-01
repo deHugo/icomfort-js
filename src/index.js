@@ -41,3 +41,6 @@ iComfortClient.prototype.validateUser              = function(params) {
 iComfortClient.prototype.setThermostatInfo         = function(data) {
     return base.doPut(definitions.setThermostatInfo.path, this.auth, '', data);
 };
+iComfortClient.prototype.setProgramMode            = function(data) {
+    return base.doDashboardPost(definitions.setModeChange.path, this.auth, '', data);
+};

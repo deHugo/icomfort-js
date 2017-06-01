@@ -27,8 +27,6 @@ describe('tests the iComfort client', () => {
     before('creates an iComfort client', () => icomfort = new iComfortClient(auth));
 
     it('instantiates the client without the \'new\' keyword', () => {
-        const getBuildingsInfoParams = {UserId:ENV.USERNAME};
-
         const icomfortClient = iComfortClient(auth);
 
         assert((icomfortClient instanceof iComfortClient), 'icomfortClient is not an instance of iComfortClient');
@@ -85,16 +83,13 @@ describe('tests the iComfort client', () => {
     describe('updates thermostat settings (setThermostatInfo)', () => {
         let currentSettings;
 
-        before(done => {
+        before(() => {
             const getThermostatInfoListParams = {GatewaySN:ENV.GATEWAY_SN, TempUnit: 0};
 
-            icomfort.getThermostatInfoList(getThermostatInfoListParams)
+            return icomfort.getThermostatInfoList(getThermostatInfoListParams)
                 .then(res => {
                     currentSettings = res.tStatInfo.find(tStat => tStat.GatewaySN === ENV.GATEWAY_SN);
-
-                    done();
-                })
-                .catch(done);
+                });
         });
 
         it('updates the temperature', () => {
@@ -107,7 +102,22 @@ describe('tests the iComfort client', () => {
             return icomfort.setThermostatInfo(newSettings).then(logResponse);
         });
 
+        it('sets the program schedule mode', () => {
+            const programModeOptions = {
+                hidden_gateway_SN:          ENV.GATEWAY_SN,
+                zoneNumber:                 currentSettings.Zone_Number,
+                Current_HeatPoint:          currentSettings.Heat_Set_Point+2,
+                Current_CoolPoint:          currentSettings.Cool_Set_Point+2,
+                Current_FanValue:           currentSettings.Fan_Mode,
+                Program_Schedule_Mode:      (parseInt(currentSettings.Program_Schedule_Mode)) === 1 ? 0 : 1,
+                Operation_Mode:             currentSettings.Operation_Mode,
+                Program_Schedule_Selection: currentSettings.Program_Schedule_Selection,
+                Pref_Temp_Units:            currentSettings.Pref_Temp_Units,
+            };
+
+            return icomfort.setProgramMode(programModeOptions).then(logResponse);
+        });
+
         after(() => icomfort.setThermostatInfo(currentSettings));
     });
 });
-
