@@ -1,3 +1,8 @@
+[![view on npm](http://img.shields.io/npm/v/icomfort.svg)](https://www.npmjs.org/package/icomfort)
+[![npm module downloads](http://img.shields.io/npm/dt/icomfort.svg)](https://www.npmjs.org/package/icomfort)
+[![Dependency Status](https://david-dm.org/dehugo/icomfort/status.svg)](https://david-dm.org/dehugo/icomfort-js)
+[![Dev Dependency Status](https://david-dm.org/dehugo/icomfort/dev-status.svg)](https://david-dm.org/dehugo/icomfort-js)
+
 # icomfort-js
 A client for the Lennox iComfort services implemented in JavaScript.
 
