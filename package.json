@@ -12,14 +12,14 @@
   ],
   "main": "./src/index.js",
   "scripts": {
-    "lint": "./node_modules/.bin/eslint --fix ./src/ ./tests/",
-    "test": "./node_modules/.bin/mocha ./tests/"
+    "lint": "eslint --fix ./src/ ./tests/",
+    "test": "mocha ./tests/"
   },
   "author": "Daniel McQuiston <daniel.pro@dehugo.net>",
   "license": "MIT",
   "devDependencies": {
-    "eslint": "^3.12.2",
-    "mocha": "^3.2.0"
+    "eslint": "^4.19.0",
+    "mocha": "^5.0.4"
   },
   "dependencies": {
     "request": "^2.79.0",
@@ -28,8 +28,5 @@
   "engines": {
     "node": ">=4.3.2"
   },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/deHugo/icomfort-js.git"
-  }
+  "repository": "github:deHugo/icomfort-js"
 }
