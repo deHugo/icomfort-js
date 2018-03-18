@@ -4,36 +4,54 @@
         "node": true
     },
     "extends": "eslint:recommended",
+    "overrides": [
+        {
+            "files": [
+                "tests/**/*.js"
+            ],
+            "env": {
+                "mocha": true
+            },
+            "rules": {
+                "no-console": "off"
+            }
+        }
+    ],
     "parserOptions": {
+        "ecmaVersion": 2017,
         "sourceType": "module"
     },
     "rules": {
         "indent": [
-            2,
+            "error",
             4
         ],
         "linebreak-style": [
-            2,
+            "error",
             "unix"
         ],
         "quotes": [
-            2,
+            "error",
             "single",
-            {"allowTemplateLiterals": true}
+            {
+                "allowTemplateLiterals": true
+            }
         ],
         "semi": [
-            2,
+            "error",
             "always"
         ],
         "no-mixed-spaces-and-tabs": [
-            2,
+            "error",
             "smart-tabs"
         ],
         "no-console": [
-            1,
-            { "allow": ["warn", "error"] }
+            "error"
         ],
         "arrow-spacing": "error",
-        "arrow-parens": ["warn", "as-needed"]
+        "arrow-parens": [
+            "warn",
+            "as-needed"
+        ]
     }
 }
