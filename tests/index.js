@@ -1,6 +1,6 @@
 'use strict';
 
-const assert = require('assert');
+const {expect} = require('chai');
 
 const iComfortClient = require('../src/index.js');
 
@@ -29,55 +29,90 @@ describe('tests the iComfort client', () => {
     it('instantiates the client without the \'new\' keyword', () => {
         const icomfortClient = iComfortClient(auth);
 
-        assert((icomfortClient instanceof iComfortClient), 'icomfortClient is not an instance of iComfortClient');
+        expect(icomfortClient).to.be.instanceof(iComfortClient, 'icomfortClient is not an instance of iComfortClient');
     });
 
-    it('gets buildings info (getBuildingsInfo)', () => {
+    it('gets buildings info (getBuildingsInfo)', async () => {
         const getBuildingsInfoParams = {UserId:ENV.USERNAME};
 
-        return icomfort.getBuildingsInfo(getBuildingsInfoParams).then(logResponse);
+        const buildings = await icomfort.getBuildingsInfo(getBuildingsInfoParams)
+            .then(logResponse);
+
+        expect(buildings).to.be.a('array');
+        buildings.forEach(building => {
+            expect(building).to.have.all.keys(['Addr1', 'Addr2', 'Age_of_Building', 'BuildingAlert', 'BuildingID', 'BuildingReminder', 'BuildingSize', 'BuildingStyle', 'Building_Name', 'City', 'Country', 'DealerAlerts_DlrWants', 'DealerAlerts_OwnerAllow', 'DealerID', 'DealerReminder_DlrWants', 'DealerReminder_OwnerAllow', 'DealerTStatView', 'DefaultBuilding', 'Latitude', 'Longitude', 'NotificationEmail', 'Number_of_Bedrooms', 'Number_of_Floors', 'Number_of_Occupants', 'St_Prov', 'UserID', 'UtilityCompany', 'ZIP_PC']);
+        });
     });
 
-    it('gets gateway info (getGatewayInfo)', () => {
+    it('gets gateway info (getGatewayInfo)', async () => {
         const getGatewayInfoParams = {GatewaySN:ENV.GATEWAY_SN, TempUnit: 0};
 
-        return icomfort.getGatewayInfo(getGatewayInfoParams).then(logResponse);
+        const gateway = await icomfort.getGatewayInfo(getGatewayInfoParams).then(logResponse);
+
+        expect(gateway).to.have.all.keys(['Cool_Set_Point_High_Limit','Cool_Set_Point_Low_Limit','Daylight_Savings_Time','Heat_Cool_Dead_Band','Heat_Set_Point_High_Limit','Heat_Set_Point_Low_Limit','Pref_Language_Nbr','Pref_Temp_Unit','ReturnStatus','SystemID']);
     });
 
-    it('gets gateway alerts (getGatewaysAlerts)', () => {
+    it('gets gateway alerts (getGatewaysAlerts)', async () => {
         const getGatewaysAlertsParams = {gatewaysn:ENV.GATEWAY_SN};
 
-        return icomfort.getGatewaysAlerts(getGatewaysAlertsParams).then(logResponse);
+        const alerts = await icomfort.getGatewaysAlerts(getGatewaysAlertsParams).then(logResponse);
+
+        expect(alerts).to.be.a('array');
+        alerts.forEach(alert => {
+            expect(alert).to.have.all.keys(['Alarm_Description','Alarm_Nbr','Alarm_Type','Alarm_Value','DateTime_Reset','DateTime_Set','Status']);
+        });
     });
 
-    it('gets system info (getSystemsInfo)', () => {
+    it('gets system info (getSystemsInfo)', async () => {
         const getSystemsInfoParams = {UserId:ENV.USERNAME};
 
-        return icomfort.getSystemsInfo(getSystemsInfoParams).then(logResponse);
+        const systems = await icomfort.getSystemsInfo(getSystemsInfoParams).then(logResponse);
+
+        expect(systems).to.be.a('array');
+        systems.forEach(system => {
+            expect(system).to.have.all.keys(['BuildingID','Firmware_Ver','Gateway_SN','RegistrationCompleteFlag','Status','SystemID','System_Name']);
+        });
     });
 
-    it('gets thermostat info list (getThermostatInfoList)', () => {
+    it('gets thermostat info list (getThermostatInfoList)', async () => {
         const getThermostatInfoListParams = {GatewaySN:ENV.GATEWAY_SN, TempUnit: 0};
 
-        return icomfort.getThermostatInfoList(getThermostatInfoListParams).then(logResponse);
+        const thermostats = await icomfort.getThermostatInfoList(getThermostatInfoListParams).then(logResponse);
+
+        expect(thermostats).to.be.a('array');
+        thermostats.forEach(thermostat => {
+            expect(thermostat).to.have.all.keys(['Away_Mode','Central_Zoned_Away','ConnectionStatus','Cool_Set_Point','DateTime_Mark','Fan_Mode','GMT_To_Local','GatewaySN','Golden_Table_Updated','Heat_Set_Point','Indoor_Humidity','Indoor_Temp','Operation_Mode','Pref_Temp_Units','Program_Schedule_Mode','Program_Schedule_Selection','System_Status','Zone_Enabled','Zone_Name','Zone_Number','Zones_Installed']);
+        });
     });
 
-    it('gets thermostat lookup info (getThermostatLookupInfo)', () => {
+    it('gets thermostat lookup info (getThermostatLookupInfo)', async () => {
         const getThermostatLookupInfoParams = {gatewaysn:ENV.GATEWAY_SN, name: 'all'};
 
-        return icomfort.getThermostatLookupInfo(getThermostatLookupInfoParams).then(logResponse);
+        const lookups = await icomfort.getThermostatLookupInfo(getThermostatLookupInfoParams).then(logResponse);
+
+        expect(lookups).to.be.a('array');
+        lookups.forEach(lookup => {
+            expect(lookup).to.have.all.keys(['Lang_Nbr','ReturnStatus','description','name','sort_order','value']);
+        });
     });
 
-    it('gets thermostat schedule info (getThermostatScheduleInfo)', () => {
+    it('gets thermostat schedule info (getThermostatScheduleInfo)', async () => {
         const getThermostatScheduleInfoParams = {gatewaysn:ENV.GATEWAY_SN};
 
-        return icomfort.getThermostatScheduleInfo(getThermostatScheduleInfoParams).then(logResponse);
+        const schedules = await icomfort.getThermostatScheduleInfo(getThermostatScheduleInfoParams).then(logResponse);
+
+        expect(schedules).to.be.a('array');
+        schedules.forEach(schedule => {
+            expect(schedule).to.have.all.keys(['Schedule_Name','Schedule_Number']);
+        });
     });
 
-    it('validates user (validateUser)', () => {
+    it('validates user (validateUser)', async () => {
         const validateUserData = {UserName:ENV.USERNAME};
 
-        return icomfort.validateUser(validateUserData).then(logResponse);
+        const userValidation = await icomfort.validateUser(validateUserData).then(logResponse);
+
+        expect(JSON.parse(JSON.stringify(userValidation))).deep.equal({msg_code: 'SUCCESS',msg_desc: 'Success'});
     });
 
     describe('updates thermostat settings (setThermostatInfo)', () => {
@@ -88,30 +123,16 @@ describe('tests the iComfort client', () => {
                 .then(res => currentSettings=res);
         });
 
-        it('updates the temperature', () => {
+        it('updates the temperature', async () => {
             const newOptions = {
                 Cool_Set_Point: currentSettings.Cool_Set_Point+2,
                 Heat_Set_Point: currentSettings.Heat_Set_Point+2
             };
             const newSettings = Object.assign({}, currentSettings, newOptions);
 
-            return icomfort.setThermostatInfo(newSettings).then(logResponse);
-        });
+            const updateRes = await icomfort.setThermostatInfo(newSettings).then(logResponse);
 
-        xit('sets the program schedule mode', () => {
-            const programModeOptions = {
-                hidden_gateway_SN:          ENV.GATEWAY_SN,
-                zoneNumber:                 currentSettings.Zone_Number,
-                Current_HeatPoint:          currentSettings.Heat_Set_Point+2,
-                Current_CoolPoint:          currentSettings.Cool_Set_Point+2,
-                Current_FanValue:           currentSettings.Fan_Mode,
-                Program_Schedule_Mode:      (parseInt(currentSettings.Program_Schedule_Mode)) === 1 ? 0 : 1,
-                Operation_Mode:             currentSettings.Operation_Mode,
-                Program_Schedule_Selection: currentSettings.Program_Schedule_Selection,
-                Pref_Temp_Units:            currentSettings.Pref_Temp_Units,
-            };
-
-            return icomfort.setProgramMode(programModeOptions).then(logResponse);
+            expect(updateRes).to.be.a('object').that.is.empty;
         });
 
         after(() => icomfort.setThermostatInfo(currentSettings));
