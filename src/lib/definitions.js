@@ -71,6 +71,18 @@ module.exports = {
             'zoneNumber': params.GATEWAY_SERIAL_NUMBER,
         }
     },
+    setAwayMode: {
+        path: '/SetAwayModeNew',
+        paramsDef: {
+            'awaymode': Number,//Enum (0,1)
+            'coolsetpoint': Number,
+            'fanmode': Number,//Enum (0,1)
+            'gatewaysn': params.GATEWAY_SERIAL_NUMBER,
+            'heatsetpoint': Number,
+            'tempscale': Number,
+            'zonenumber': params.ZONE_ID,
+        }
+    },
     setModeChange: {
         path: '/Set_ModeChange',
         paramsDef: {
