@@ -477,22 +477,24 @@ If the update is successful, the number __0__ is returned.
 ```
 
 
-### setProgramMode(data)
-Updates program mode for a thermostat. Can be used to set temperatures as well as program schedule mode (manual, schedule).
+### setProgramMode(data) - **DEPRECATED AS OF VERSION 1.2.2**
 
-This method requires various properties in its data payload. The best way to use this method is to first get the current thermostat info using the `getThermostatInfoList` method. Then use its properties as needed to create a payload.
+> Due to changes in Lennox's services, this method has been deprecated.
+
+
+### setAwayMode(data)
+Updates away mode for a thermostat..
+
+This method requires the new away mode (on or off) represented by a 1 or 0. The zone to be updated needs to be specified as well. The underlying endpoint gets passed fan mode, and cooling and heating set points, though they seem to get calculated on the server. The response is the same as that of the getThermostatInfoList method.
 
 `data` - *Object*:
 
-* `hidden_gateway_SN` - The serial number of a gateway associated with your account. It can be discovered using the `getSystemsInfo` method.
-* `zoneNumber` - Zone number of gateway.
-* `Current_HeatPoint` - Minimum temperature before thermostat activates heating.
-* `Current_CoolPoint` - Maximum temperature before thermostat activates cooling.
-* `Current_FanValue` - Fan operation mode. See [getThermostatLookupInfo](#getthermostatlookupinfoparams) for values.
-* `Program_Schedule_Mode` - Program schedule mode. Manual or use schedule.
-* `Operation_Mode` - Operation mode. Heat, heat and cool, cool. See [getThermostatLookupInfo](#getthermostatlookupinfoparams) for values.
-* `Program_Schedule_Selection` - Selects which program to use.
-* `Pref_Temp_Units` - A integer which indicates which temperature units to use to represent values from the gateway. The value __0__ Corresponds to F (farenheit) and __1__ to C (celsius).
+* `awaymode` - Away mode setting. Value 0 activates away mode, and value 1 deactivates it.
+* `coolsetpoint` - Maximum temperature before thermostat activates cooling.
+* `fanmode` - Fan operation mode. See [getThermostatLookupInfo](#getthermostatlookupinfoparams) for values.
+* `gatewaysn` - The serial number of a gateway associated with your account. It can be discovered using the `getSystemsInfo` method.
+* `heatsetpoint` - Minimum temperature before thermostat activates heating.
+* `zonenumber` - Zone number of gateway.
 
 #### Example
 
@@ -500,34 +502,61 @@ This method requires various properties in its data payload. The best way to use
 const icomfort = new iComfortClient({username: 'valid username', password: 'supersecret'});
 
 const myGatewaySN = 'WS99C99999';
-const newProgramScheduleMode = 0; // Manual
+const newAwayMode = 1; // Activates away mode
 
-icomfort.getThermostatInfoList({Cancel_Away: -1, GatewaySN: myGatewaySN})
+icomfort.getThermostatInfoList({GatewaySN: myGatewaySN})
     .then(res => {
         const currentSettings = res.tStatInfo.find(tStat => tStat.GatewaySN === myGatewaySN);
 
-        const programModeOptions = {
-            hidden_gateway_SN:          myGatewaySN,
-            zoneNumber:                 currentSettings.Zone_Number,
-            Current_HeatPoint:          currentSettings.Heat_Set_Point+2,
-            Current_CoolPoint:          currentSettings.Cool_Set_Point+2,
-            Current_FanValue:           currentSettings.Fan_Mode,
-            Program_Schedule_Mode:      newProgramScheduleMode,
-            Operation_Mode:             currentSettings.Operation_Mode,
-            Program_Schedule_Selection: currentSettings.Program_Schedule_Selection,
-            Pref_Temp_Units:            currentSettings.Pref_Temp_Units,
+        const currentAwayMode = {
+            'awaymode': currentSettings.Away_Mode,
+            'coolsetpoint': currentSettings.Cool_Set_Point,
+            'fanmode': currentSettings.Fan_Mode,
+            'gatewaysn': currentSettings.GatewaySN,
+            'heatsetpoint': currentSettings.Heat_Set_Point,
+            'zonenumber': currentSettings.Zone_Number,
         };
 
-        return icomfort.setProgramMode(programModeOptions);
+        const newOptions = {
+            'awaymode': newAwayMode
+        };
+        const newSettings = Object.assign({}, currentAwayMode, newOptions);
+
+        return icomfort.setAwayMode(newSettings);
     });
 ```
 
 #### Example Response
 
-A nested JSON string will be returned with the updated values for the program mode.
-
 ```json
-{"d": "{\"tStatInfo\":[{\"GatewaySN\":\"WS99C99999\",\"Zone_Number\":0,\"Zone_Name\":\"Zone 1\",\"Program_Schedule_Selection\":4,\"Schedule_Name\":null,\"Program_Schedule_Mode\":\"0\",\"Away_Mode\":0,\"Pref_Temp_Units\":\"0\",\"DateTime_Mark\":\"\\/Date(1496271469710)\\/\",\"Zone_Enabled\":1,\"System_Status\":0,\"Indoor_Temp\":75.00,\"Indoor_Humidity\":38,\"Operation_Mode\":3,\"Heat_Set_Point\":69.00,\"Cool_Set_Point\":75.00,\"Fan_Mode\":0,\"Golden_Table_Updated\":false,\"ConnectionStatus\":\"GOOD\",\"Central_Zoned_Away\":2,\"Zones_Installed\":1,\"GMT_To_Local\":0}],\"ReturnStatus\":\"0\"}"}
+{
+  "ReturnStatus": "1",
+  "tStatInfo": [
+    {
+      "Away_Mode": 1,
+      "Central_Zoned_Away": 2,
+      "ConnectionStatus": "GOOD",
+      "Cool_Set_Point": 85,
+      "DateTime_Mark": "/Date(1487093681823+0000)/",
+      "Fan_Mode": 0,
+      "GMT_To_Local": -25200,
+      "GatewaySN": "WS99C99999",
+      "Golden_Table_Updated": true,
+      "Heat_Set_Point": 62,
+      "Indoor_Humidity": 31,
+      "Indoor_Temp": 73,
+      "Operation_Mode": 3,
+      "Pref_Temp_Units": "0",
+      "Program_Schedule_Mode": "1",
+      "Program_Schedule_Selection": 1,
+      "System_Status": 0,
+      "Zone_Enabled": 1,
+      "Zone_Name": "Zone 1",
+      "Zone_Number": 0,
+      "Zones_Installed": 1
+    }
+  ]
+}
 ```
 
 

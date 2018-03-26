@@ -83,13 +83,9 @@ describe('tests the iComfort client', () => {
     describe('updates thermostat settings (setThermostatInfo)', () => {
         let currentSettings;
 
-        before(() => {
-            const getThermostatInfoListParams = {GatewaySN:ENV.GATEWAY_SN, TempUnit: 0};
-
-            return icomfort.getThermostatInfoList(getThermostatInfoListParams)
-                .then(res => {
-                    currentSettings = res.tStatInfo.find(tStat => tStat.GatewaySN === ENV.GATEWAY_SN);
-                });
+        before('get current settings',() => {
+            return getCurrentSettings(icomfort, ENV.GATEWAY_SN)
+                .then(res => currentSettings=res);
         });
 
         it('updates the temperature', () => {
@@ -102,7 +98,7 @@ describe('tests the iComfort client', () => {
             return icomfort.setThermostatInfo(newSettings).then(logResponse);
         });
 
-        it('sets the program schedule mode', () => {
+        xit('sets the program schedule mode', () => {
             const programModeOptions = {
                 hidden_gateway_SN:          ENV.GATEWAY_SN,
                 zoneNumber:                 currentSettings.Zone_Number,
@@ -120,4 +116,43 @@ describe('tests the iComfort client', () => {
 
         after(() => icomfort.setThermostatInfo(currentSettings));
     });
+
+    describe('changes away mode setting',() => {
+        let currentSettings, currentAwayMode;
+
+        before('get current settings',() => {
+            return getCurrentSettings(icomfort, ENV.GATEWAY_SN)
+                .then(res => currentSettings=res);
+        });
+
+        it('updates the away mode', () => {
+            currentAwayMode = {
+                'awaymode': currentSettings.Away_Mode,
+                'coolsetpoint': currentSettings.Cool_Set_Point,
+                'fanmode': currentSettings.Fan_Mode,
+                'gatewaysn': currentSettings.GatewaySN,
+                'heatsetpoint': currentSettings.Heat_Set_Point,
+                'zonenumber': currentSettings.Zone_Number,
+            };
+            const newOptions = {
+                'awaymode': currentSettings.Away_Mode ? 0 : 1 ,
+                'coolsetpoint': currentSettings.Cool_Set_Point-10,
+                'heatsetpoint': currentSettings.Heat_Set_Point+6,
+            };
+            const newSettings = Object.assign({}, currentAwayMode, newOptions);
+
+            return icomfort.setAwayMode(newSettings).then(logResponse);
+        });
+
+        after(() => icomfort.setAwayMode(currentAwayMode).then(logResponse));
+    });
 });
+
+function getCurrentSettings (icomfortClient, serialnumber) {
+    const getThermostatInfoListParams = {GatewaySN:serialnumber, TempUnit: 0};
+
+    return icomfortClient.getThermostatInfoList(getThermostatInfoListParams)
+        .then(res => {
+            return res.tStatInfo.find(tStat => tStat.GatewaySN === serialnumber);
+        });
+}
