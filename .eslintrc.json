@@ -35,5 +35,21 @@
         ],
         "arrow-spacing": "error",
         "arrow-parens": ["warn", "as-needed"]
-    }
+    },
+    "overrides": [
+        {
+            "files": ["tests/*.js"],
+            "env": {
+                "es6": true,
+                "mocha": true,
+                "node": true
+            },
+            "rules": {
+                "no-console": [
+                    0,
+                    { "allow": ["warn", "error"] }
+                ]
+            }
+        }
+    ]
 }
