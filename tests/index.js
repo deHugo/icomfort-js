@@ -85,8 +85,9 @@ describe('tests the iComfort client', () => {
         });
     });
 
-    it('gets thermostat lookup info (getThermostatLookupInfo)', async () => {
-        const getThermostatLookupInfoParams = {gatewaysn:ENV.GATEWAY_SN, name: 'all'};
+    it.only('gets thermostat lookup info (getThermostatLookupInfo)', async () => {
+        // const getThermostatLookupInfoParams = {gatewaysn:ENV.GATEWAY_SN, name: 'all'};
+        const getThermostatLookupInfoParams = {gatewaysn:ENV.GATEWAY_SN, name: 'all', Lang_Nbr:1};
 
         const lookups = await icomfort.getThermostatLookupInfo(getThermostatLookupInfoParams).then(logResponse);
 
