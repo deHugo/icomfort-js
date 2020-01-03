@@ -24,3 +24,6 @@ jobs:
         npm test
       env:
         CI: true
+        ICOMFORT_USERNAME: ${{ secrets.ICOMFORT_USERNAME }}
+        ICOMFORT_PASSWORD: ${{ secrets.ICOMFORT_PASSWORD }}
+        ICOMFORT_GATEWAY_SERIAL: ${{ secrets.ICOMFORT_GATEWAY_SERIAL }}
