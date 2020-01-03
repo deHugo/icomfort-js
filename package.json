@@ -11,6 +11,12 @@
     "automation"
   ],
   "main": "./src/index.js",
+  "files": [
+    "/src/**/*.js"
+  ],
+  "directories": {
+    "lib": "./lib"
+  },
   "scripts": {
     "lint": "eslint --fix ./src/ ./tests/",
     "test": "mocha ./tests/"
