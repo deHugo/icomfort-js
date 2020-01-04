@@ -32,16 +32,18 @@ jobs:
     name: Lint check code
     timeout-minutes: 2
     runs-on: ubuntu-latest
-    env:
-      node-version: 12
+
+    strategy:
+      matrix:
+        node-version: 12
 
     steps:
     - name: Checkout code
       uses: actions/checkout@v1
-    - name: Use Node.js ${{ node-version }}
+    - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v1
       with:
-        node-version: ${{ node-version }}
+        node-version: ${{ matrix.node-version }}
     - name: Install and lint
       run: |
         npm ci
