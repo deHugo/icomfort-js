@@ -29,7 +29,7 @@ jobs:
         ICOMFORT_GATEWAY_SERIAL: ${{ secrets.ICOMFORT_GATEWAY_SERIAL }}
 
   lint:
-    name: Lint check code
+    name: Lint code
     timeout-minutes: 2
     runs-on: ubuntu-latest
 
