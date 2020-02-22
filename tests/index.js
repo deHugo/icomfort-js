@@ -29,7 +29,18 @@ describe('tests the iComfort client', () => {
     it('instantiates the client without the \'new\' keyword', () => {
         const icomfortClient = iComfortClient(auth);
 
-        assert((icomfortClient instanceof iComfortClient), 'icomfortClient is not an instance of iComfortClient');
+        assert((typeof icomfortClient === 'object'), 'icomfortClient is not an object');
+        assert(Object.hasOwnProperty.call(icomfortClient, 'getBuildingsInfo'),          'icomfortClient does not have property \'getBuildingsInfo\'');
+        assert(Object.hasOwnProperty.call(icomfortClient, 'getGatewayInfo'),            'icomfortClient does not have property \'getGatewayInfo\'');
+        assert(Object.hasOwnProperty.call(icomfortClient, 'getGatewaysAlerts'),         'icomfortClient does not have property \'getGatewaysAlerts\'');
+        assert(Object.hasOwnProperty.call(icomfortClient, 'getSystemsInfo'),            'icomfortClient does not have property \'getSystemsInfo\'');
+        assert(Object.hasOwnProperty.call(icomfortClient, 'getThermostatInfoList'),     'icomfortClient does not have property \'getThermostatInfoList\'');
+        assert(Object.hasOwnProperty.call(icomfortClient, 'getThermostatLookupInfo'),   'icomfortClient does not have property \'getThermostatLookupInfo\'');
+        assert(Object.hasOwnProperty.call(icomfortClient, 'getThermostatScheduleInfo'), 'icomfortClient does not have property \'getThermostatScheduleInfo\'');
+        assert(Object.hasOwnProperty.call(icomfortClient, 'validateUser'),              'icomfortClient does not have property \'validateUser\'');
+        assert(Object.hasOwnProperty.call(icomfortClient, 'setThermostatInfo'),         'icomfortClient does not have property \'setThermostatInfo\'');
+        assert(Object.hasOwnProperty.call(icomfortClient, 'setProgramMode'),            'icomfortClient does not have property \'setProgramMode\'');
+        assert(Object.hasOwnProperty.call(icomfortClient, 'setAwayMode'),               'icomfortClient does not have property \'setAwayMode\'');
     });
 
     it('gets buildings info (getBuildingsInfo)', () => {
@@ -85,7 +96,8 @@ describe('tests the iComfort client', () => {
 
         before('get current settings',() => {
             return getCurrentSettings(icomfort, ENV.GATEWAY_SN)
-                .then(res => currentSettings=res);
+                .then(res => currentSettings=res)
+                .then(logResponse);
         });
 
         it('updates the temperature', () => {
@@ -122,7 +134,8 @@ describe('tests the iComfort client', () => {
 
         before('get current settings',() => {
             return getCurrentSettings(icomfort, ENV.GATEWAY_SN)
-                .then(res => currentSettings=res);
+                .then(res => currentSettings=res)
+                .then(logResponse);
         });
 
         it('updates the away mode', () => {
