@@ -36,5 +36,12 @@
   "engines": {
     "node": ">=4.3.2"
   },
+  "nyc": {
+    "check-coverage": true,
+    "branches": 75,
+    "lines": 76,
+    "functions": 62,
+    "statements": 75
+  },
   "repository": "github:deHugo/icomfort-js"
 }
