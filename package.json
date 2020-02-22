@@ -19,13 +19,15 @@
   },
   "scripts": {
     "lint": "eslint --fix ./src/ ./tests/",
-    "test": "mocha ./tests/"
+    "test": "mocha ./tests/",
+    "test:cov": "nyc mocha ./tests/"
   },
   "author": "Daniel McQuiston <daniel.pro@dehugo.net>",
   "license": "MIT",
   "devDependencies": {
     "eslint": "^6.8.0",
-    "mocha": "^6.2.2"
+    "mocha": "^7.0.1",
+    "nyc": "^15.0.0"
   },
   "dependencies": {
     "request": "^2.88.0",
