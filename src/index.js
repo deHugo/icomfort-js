@@ -6,7 +6,7 @@ const DEFS = require('./lib/definitions');
 module.exports = iComfortClient;
 
 function iComfortClient (auth) {
-    const cachedAuth = Object.assign({username:null, password: null}, auth);
+    const cachedAuth = {username:null, password: null, ...auth};
 
     return {
         getBuildingsInfo:          params => base.doGet(DEFS.getBuildingsInfo.path, cachedAuth, params),

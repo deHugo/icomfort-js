@@ -30,14 +30,16 @@
     "nyc": "^15.0.0"
   },
   "dependencies": {
-    "request": "^2.88.0",
-    "request-promise-native": "^1.0.8"
+    "bent": "^7.1.0"
   },
   "engines": {
     "node": ">=4.3.2"
   },
   "nyc": {
-    "reporter": ["text", "html"],
+    "reporter": [
+      "text",
+      "html"
+    ],
     "check-coverage": true,
     "branches": 95,
     "lines": 93,

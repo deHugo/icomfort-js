@@ -5,23 +5,16 @@ const assert = require('assert');
 describe('base http client wrapper', () => {
     const base = require('../../src/lib/base.js');
 
-    it('get full dashboard uri from endpoint', () => {
-        const endpoint = '/test';
+    describe('creds to auth header',() => {
+        it('creates headers object with base64 encoded credentials',() => {
+            const creds = {username: 'me', password: 'secret'};
 
-        const uri = base.getFullDashboardUri(endpoint);
+            const headerObject = base.credsToAuthHeader(creds);
 
-        assert(typeof uri === 'string', 'uri is not a string');
-        assert(uri.includes('test'), 'uri does not contain endpoint');
-    });
-
-    it('get full uri for dashboard', () => {
-        const type = 'DASHBOARD';
-        const endpoint = '/test';
-
-        const uri = base.getFullUri(endpoint, type);
-
-        assert(typeof uri === 'string', 'uri is not a string');
-        assert(uri.includes('test'), 'uri does not contain endpoint');
-        assert(uri.includes('/Dashboard.aspx'), 'uri does not point to Dashboard endpoint');
+            assert(Object.hasOwnProperty.call(headerObject, 'Authorization'), 'headers object does not have property \'Authorization\'');
+            assert.equal(typeof headerObject['Authorization'], 'string', '\'Authorization\' header is not a string');
+            assert(headerObject['Authorization'].includes('Basic'));
+            assert(headerObject['Authorization'].includes('bWU6c2VjcmV0'));
+        });
     });
 });
