@@ -37,6 +37,7 @@
     "node": ">=4.3.2"
   },
   "nyc": {
+    "reporter": ["text", "html"],
     "check-coverage": true,
     "branches": 75,
     "lines": 76,
