@@ -19,8 +19,8 @@
   },
   "scripts": {
     "lint": "eslint --fix ./src/ ./tests/",
-    "test": "mocha ./tests/",
-    "test:cov": "nyc mocha ./tests/"
+    "test": "mocha tests/*",
+    "test:cov": "nyc npm t"
   },
   "author": "Daniel McQuiston <daniel.pro@dehugo.net>",
   "license": "MIT",
