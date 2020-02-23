@@ -14,7 +14,7 @@ function logResponse (res) {
     return res;
 }
 
-describe('tests the iComfort client', () => {
+describe('exported iComfort client', () => {
     const ENV = {
         USERNAME: process.env['ICOMFORT_USERNAME'],
         PASSWORD: process.env['ICOMFORT_PASSWORD'],
@@ -26,69 +26,81 @@ describe('tests the iComfort client', () => {
 
     before('creates an iComfort client', () => icomfort = new iComfortClient(auth));
 
-    it('instantiates the client without the \'new\' keyword', () => {
+    it('instantiate the client without the \'new\' keyword', () => {
         const icomfortClient = iComfortClient(auth);
 
-        assert((icomfortClient instanceof iComfortClient), 'icomfortClient is not an instance of iComfortClient');
+        assert((typeof icomfortClient === 'object'), 'icomfortClient is not an object');
+        assert(Object.hasOwnProperty.call(icomfortClient, 'getBuildingsInfo'),          'icomfortClient does not have property \'getBuildingsInfo\'');
+        assert(Object.hasOwnProperty.call(icomfortClient, 'getGatewayInfo'),            'icomfortClient does not have property \'getGatewayInfo\'');
+        assert(Object.hasOwnProperty.call(icomfortClient, 'getGatewaysAlerts'),         'icomfortClient does not have property \'getGatewaysAlerts\'');
+        assert(Object.hasOwnProperty.call(icomfortClient, 'getSystemsInfo'),            'icomfortClient does not have property \'getSystemsInfo\'');
+        assert(Object.hasOwnProperty.call(icomfortClient, 'getThermostatInfoList'),     'icomfortClient does not have property \'getThermostatInfoList\'');
+        assert(Object.hasOwnProperty.call(icomfortClient, 'getThermostatLookupInfo'),   'icomfortClient does not have property \'getThermostatLookupInfo\'');
+        assert(Object.hasOwnProperty.call(icomfortClient, 'getThermostatScheduleInfo'), 'icomfortClient does not have property \'getThermostatScheduleInfo\'');
+        assert(Object.hasOwnProperty.call(icomfortClient, 'validateUser'),              'icomfortClient does not have property \'validateUser\'');
+        assert(Object.hasOwnProperty.call(icomfortClient, 'setThermostatInfo'),         'icomfortClient does not have property \'setThermostatInfo\'');
+        assert(Object.hasOwnProperty.call(icomfortClient, 'setProgramMode'),            'icomfortClient does not have property \'setProgramMode\'');
+        assert(Object.hasOwnProperty.call(icomfortClient, 'setAwayMode'),               'icomfortClient does not have property \'setAwayMode\'');
     });
 
-    it('gets buildings info (getBuildingsInfo)', () => {
+    it('get buildings info (getBuildingsInfo)', () => {
         const getBuildingsInfoParams = {UserId:ENV.USERNAME};
 
         return icomfort.getBuildingsInfo(getBuildingsInfoParams).then(logResponse);
     });
 
-    it('gets gateway info (getGatewayInfo)', () => {
+    it('get gateway info (getGatewayInfo)', () => {
         const getGatewayInfoParams = {GatewaySN:ENV.GATEWAY_SN, TempUnit: 0};
 
         return icomfort.getGatewayInfo(getGatewayInfoParams).then(logResponse);
     });
 
-    it('gets gateway alerts (getGatewaysAlerts)', () => {
+    it('get gateway alerts (getGatewaysAlerts)', () => {
         const getGatewaysAlertsParams = {gatewaysn:ENV.GATEWAY_SN};
 
         return icomfort.getGatewaysAlerts(getGatewaysAlertsParams).then(logResponse);
     });
 
-    it('gets system info (getSystemsInfo)', () => {
+    it('get system info (getSystemsInfo)', () => {
         const getSystemsInfoParams = {UserId:ENV.USERNAME};
 
         return icomfort.getSystemsInfo(getSystemsInfoParams).then(logResponse);
     });
 
-    it('gets thermostat info list (getThermostatInfoList)', () => {
+    it('get thermostat info list (getThermostatInfoList)', () => {
         const getThermostatInfoListParams = {GatewaySN:ENV.GATEWAY_SN, TempUnit: 0};
 
         return icomfort.getThermostatInfoList(getThermostatInfoListParams).then(logResponse);
     });
 
-    it('gets thermostat lookup info (getThermostatLookupInfo)', () => {
+    it('get thermostat lookup info (getThermostatLookupInfo)', () => {
         const getThermostatLookupInfoParams = {gatewaysn:ENV.GATEWAY_SN, name: 'all'};
 
         return icomfort.getThermostatLookupInfo(getThermostatLookupInfoParams).then(logResponse);
     });
 
-    it('gets thermostat schedule info (getThermostatScheduleInfo)', () => {
+    it('get thermostat schedule info (getThermostatScheduleInfo)', () => {
         const getThermostatScheduleInfoParams = {gatewaysn:ENV.GATEWAY_SN};
 
         return icomfort.getThermostatScheduleInfo(getThermostatScheduleInfoParams).then(logResponse);
     });
 
-    it('validates user (validateUser)', () => {
+    it('validate user (validateUser)', () => {
         const validateUserData = {UserName:ENV.USERNAME};
 
         return icomfort.validateUser(validateUserData).then(logResponse);
     });
 
-    describe('updates thermostat settings (setThermostatInfo)', () => {
+    describe('update thermostat settings (setThermostatInfo)', () => {
         let currentSettings;
 
         before('get current settings',() => {
             return getCurrentSettings(icomfort, ENV.GATEWAY_SN)
-                .then(res => currentSettings=res);
+                .then(res => currentSettings=res)
+                .then(logResponse);
         });
 
-        it('updates the temperature', () => {
+        it('update the temperature', () => {
             const newOptions = {
                 Cool_Set_Point: currentSettings.Cool_Set_Point+2,
                 Heat_Set_Point: currentSettings.Heat_Set_Point+2
@@ -117,15 +129,16 @@ describe('tests the iComfort client', () => {
         after(() => icomfort.setThermostatInfo(currentSettings));
     });
 
-    describe('changes away mode setting',() => {
+    describe('change away mode setting',() => {
         let currentSettings, currentAwayMode;
 
         before('get current settings',() => {
             return getCurrentSettings(icomfort, ENV.GATEWAY_SN)
-                .then(res => currentSettings=res);
+                .then(res => currentSettings=res)
+                .then(logResponse);
         });
 
-        it('updates the away mode', () => {
+        it('update the away mode', () => {
             currentAwayMode = {
                 'awaymode': currentSettings.Away_Mode,
                 'coolsetpoint': currentSettings.Cool_Set_Point,

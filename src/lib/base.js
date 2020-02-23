@@ -1,49 +1,39 @@
 'use strict';
 
-const request = require('request-promise-native');
-const url = require('url');
+const bent = require('bent');
+const url  = require('url');
 
 const ICOMFORT = {
-    url: {
-        host: 'services.myicomfort.com',
-        port: '443',
-        protocol: 'https:',
-    },
+    baseHost: 'https://services.myicomfort.com',
     basePath: '/DBAcessService.svc',
 };
 const ICOMFORT_WEB = {
-    url: {
-        host: 'www.myicomfort.com',
-        port: '443',
-        protocol: 'https:',
-    },
+    baseHost: 'https://www.myicomfort.com',
     basePath: '/Dashboard.aspx',
 };
 
-const getFullDashboardUri = endpoint => url.format(ICOMFORT_WEB.url)+ICOMFORT_WEB.basePath+endpoint;
-const getFullDbUri = endpoint => url.format(ICOMFORT.url)+ICOMFORT.basePath+endpoint;
+const GET  = bent('GET', 'json');
+const POST = bent('POST', 'json');
+const PUT  = bent('PUT', 'json');
+
+const credsToBasicAuth = creds => Buffer.from(`${creds.username}:${creds.password}`).toString('base64');
+const credsToAuthHeader = creds => ({'Authorization': `Basic ${credsToBasicAuth(creds)}`});
 
 module.exports = {
-    getFullDashboardUri,
-    getFullDbUri,
-    getFullUri,
-    doDashboardGet:  (path, auth, qs)             => request.get(  getFullDashboardUri(path), {auth, json: true, qs}),
-    doDbGet:         (path, auth, qs)             => request.get(  getFullDbUri(path),        {auth, json: true, qs}),
-    doGet:           (path, auth, qs, type)       => request.get(  getFullUri(path, type),    {auth, json: true, qs}),
-    doDashboardPost: (path, auth, qs, body)       => request.post( getFullDashboardUri(path), {auth, json: true, qs, body}),
-    doDbPost:        (path, auth, qs, body)       => request.post( getFullDbUri(path),        {auth, json: true, qs, body}),
-    doPost:          (path, auth, qs, body, type) => request.post( getFullUri(path, type),    {auth, json: true, qs, body}),
-    doDashboardPut:  (path, auth, qs, body)       => request.put(  getFullDashboardUri(path), {auth, json: true, qs, body}),
-    doDbPut:         (path, auth, qs, body)       => request.put(  getFullDbUri(path),        {auth, json: true, qs, body}),
-    doPut:           (path, auth, qs, body, type) => request.put(  getFullUri(path, type),    {auth, json: true, qs, body}),
+    fullUrl,
+    credsToAuthHeader,
+    doGet:           (path, auth, qs)       => GET(fullUrl(ICOMFORT, path, qs),  null, {...credsToAuthHeader(auth)}),
+    doDashboardPost: (path, auth,     body) => POST(fullUrl(ICOMFORT_WEB, path), body, {...credsToAuthHeader(auth)}),
+    doPut:           (path, auth, qs, body) => PUT(fullUrl(ICOMFORT, path, qs),  body, {...credsToAuthHeader(auth)}),
 };
 
-function getFullUri (endpoint, type) {
-    type = type||'';
+function fullUrl (server, endpoint, qs) {
+    let searchParams = '';
 
-    if (type.toLowerCase() === 'dashboard') {
-        return getFullDashboardUri(endpoint);
+    if (typeof qs === 'object' && Object.values(qs).length) {
+        const {URLSearchParams} = url;
+        searchParams = `?${(new URLSearchParams(qs)).toString()}`;
     }
 
-    return getFullDbUri(endpoint);
+    return `${server.baseHost}${server.basePath}${endpoint}${searchParams}`;
 }

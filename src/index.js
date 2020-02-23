@@ -1,52 +1,27 @@
 'use strict';
 
 const base = require('./lib/base');
-
-const definitions = require('./lib/definitions');
+const DEFS = require('./lib/definitions');
 
 module.exports = iComfortClient;
 
 function iComfortClient (auth) {
-    if (!(this instanceof iComfortClient)) {
-        return new iComfortClient(auth);
-    }
+    const cachedAuth = {username:null, password: null, ...auth};
 
-    this.auth = Object.assign({username:null, password: null}, auth);
+    return {
+        getBuildingsInfo:          params => base.doGet(DEFS.getBuildingsInfo.path, cachedAuth, params),
+        getGatewayInfo:            params => base.doGet(DEFS.getGatewayInfo.path, cachedAuth, params),
+        getGatewaysAlerts:         params => base.doGet(DEFS.getGatewaysAlerts.path, cachedAuth, params),
+        getSystemsInfo:            params => base.doGet(DEFS.getSystemsInfo.path, cachedAuth, params),
+        getThermostatInfoList:     params => base.doGet(DEFS.getThermostatInfoList.path, cachedAuth, params),
+        getThermostatLookupInfo:   params => base.doGet(DEFS.getThermostatLookupInfo.path, cachedAuth, params),
+        getThermostatScheduleInfo: params => base.doGet(DEFS.getThermostatScheduleInfo.path, cachedAuth, params),
+        validateUser:              params => base.doPut(DEFS.validateUser.path, cachedAuth, params, ''),
+        setThermostatInfo:         data   => base.doPut(DEFS.setThermostatInfo.path, cachedAuth, '', data),
+        /**
+         * @deprecated since version 1.2.2
+         */
+        setProgramMode:            data   => base.doDashboardPost(DEFS.setModeChange.path, cachedAuth, '', data),
+        setAwayMode:               data   => base.doPut(DEFS.setAwayMode.path, cachedAuth, data),
+    };
 }
-
-iComfortClient.prototype.getBuildingsInfo          = function(params) {
-    return base.doGet(definitions.getBuildingsInfo.path, this.auth, params);
-};
-iComfortClient.prototype.getGatewayInfo            = function(params) {
-    return base.doGet(definitions.getGatewayInfo.path, this.auth, params);
-};
-iComfortClient.prototype.getGatewaysAlerts         = function(params) {
-    return base.doGet(definitions.getGatewaysAlerts.path, this.auth, params);
-};
-iComfortClient.prototype.getSystemsInfo            = function(params) {
-    return base.doGet(definitions.getSystemsInfo.path, this.auth, params);
-};
-iComfortClient.prototype.getThermostatInfoList     = function(params) {
-    return base.doGet(definitions.getThermostatInfoList.path, this.auth, params);
-};
-iComfortClient.prototype.getThermostatLookupInfo   = function(params) {
-    return base.doGet(definitions.getThermostatLookupInfo.path, this.auth, params);
-};
-iComfortClient.prototype.getThermostatScheduleInfo = function(params) {
-    return base.doGet(definitions.getThermostatScheduleInfo.path, this.auth, params);
-};
-iComfortClient.prototype.validateUser              = function(params) {
-    return base.doPut(definitions.validateUser.path, this.auth, params, '');
-};
-iComfortClient.prototype.setThermostatInfo         = function(data) {
-    return base.doPut(definitions.setThermostatInfo.path, this.auth, '', data);
-};
-/**
- * @deprecated since version 1.2.2
- */
-iComfortClient.prototype.setProgramMode            = function(data) {
-    return base.doDashboardPost(definitions.setModeChange.path, this.auth, '', data);
-};
-iComfortClient.prototype.setAwayMode               = function(data) {
-    return base.doPut(definitions.setAwayMode.path, this.auth, data);
-};
