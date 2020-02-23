@@ -27,14 +27,8 @@ module.exports = {
     getFullDashboardUri,
     getFullDbUri,
     getFullUri,
-    doDashboardGet:  (path, auth, qs)             => request.get(  getFullDashboardUri(path), {auth, json: true, qs}),
-    doDbGet:         (path, auth, qs)             => request.get(  getFullDbUri(path),        {auth, json: true, qs}),
     doGet:           (path, auth, qs, type)       => request.get(  getFullUri(path, type),    {auth, json: true, qs}),
     doDashboardPost: (path, auth, qs, body)       => request.post( getFullDashboardUri(path), {auth, json: true, qs, body}),
-    doDbPost:        (path, auth, qs, body)       => request.post( getFullDbUri(path),        {auth, json: true, qs, body}),
-    doPost:          (path, auth, qs, body, type) => request.post( getFullUri(path, type),    {auth, json: true, qs, body}),
-    doDashboardPut:  (path, auth, qs, body)       => request.put(  getFullDashboardUri(path), {auth, json: true, qs, body}),
-    doDbPut:         (path, auth, qs, body)       => request.put(  getFullDbUri(path),        {auth, json: true, qs, body}),
     doPut:           (path, auth, qs, body, type) => request.put(  getFullUri(path, type),    {auth, json: true, qs, body}),
 };
 
