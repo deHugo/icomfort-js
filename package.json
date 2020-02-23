@@ -40,9 +40,9 @@
     "reporter": ["text", "html"],
     "check-coverage": true,
     "branches": 95,
-    "lines": 76,
-    "functions": 62,
-    "statements": 75
+    "lines": 93,
+    "functions": 88,
+    "statements": 94
   },
   "repository": "github:deHugo/icomfort-js"
 }
