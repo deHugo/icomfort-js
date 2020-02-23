@@ -39,7 +39,7 @@
   "nyc": {
     "reporter": ["text", "html"],
     "check-coverage": true,
-    "branches": 75,
+    "branches": 95,
     "lines": 76,
     "functions": 62,
     "statements": 75

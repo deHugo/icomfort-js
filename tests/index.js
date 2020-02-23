@@ -14,7 +14,31 @@ function logResponse (res) {
     return res;
 }
 
-describe('tests the iComfort client', () => {
+describe('base http client wrapper', () => {
+    const base = require('../src/lib/base.js');
+
+    it('get full dashboard uri from endpoint', () => {
+        const endpoint = '/test';
+
+        const uri = base.getFullDashboardUri(endpoint);
+
+        assert(typeof uri === 'string', 'uri is not a string');
+        assert(uri.includes('test'), 'uri does not contain endpoint');
+    });
+
+    it('get full uri for dashboard', () => {
+        const type = 'DASHBOARD';
+        const endpoint = '/test';
+
+        const uri = base.getFullUri(endpoint, type);
+
+        assert(typeof uri === 'string', 'uri is not a string');
+        assert(uri.includes('test'), 'uri does not contain endpoint');
+        assert(uri.includes('/Dashboard.aspx'), 'uri does not point to Dashboard endpoint');
+    });
+});
+
+describe('exported iComfort client', () => {
     const ENV = {
         USERNAME: process.env['ICOMFORT_USERNAME'],
         PASSWORD: process.env['ICOMFORT_PASSWORD'],
@@ -26,7 +50,7 @@ describe('tests the iComfort client', () => {
 
     before('creates an iComfort client', () => icomfort = new iComfortClient(auth));
 
-    it('instantiates the client without the \'new\' keyword', () => {
+    it('instantiate the client without the \'new\' keyword', () => {
         const icomfortClient = iComfortClient(auth);
 
         assert((typeof icomfortClient === 'object'), 'icomfortClient is not an object');
@@ -43,55 +67,55 @@ describe('tests the iComfort client', () => {
         assert(Object.hasOwnProperty.call(icomfortClient, 'setAwayMode'),               'icomfortClient does not have property \'setAwayMode\'');
     });
 
-    it('gets buildings info (getBuildingsInfo)', () => {
+    it('get buildings info (getBuildingsInfo)', () => {
         const getBuildingsInfoParams = {UserId:ENV.USERNAME};
 
         return icomfort.getBuildingsInfo(getBuildingsInfoParams).then(logResponse);
     });
 
-    it('gets gateway info (getGatewayInfo)', () => {
+    it('get gateway info (getGatewayInfo)', () => {
         const getGatewayInfoParams = {GatewaySN:ENV.GATEWAY_SN, TempUnit: 0};
 
         return icomfort.getGatewayInfo(getGatewayInfoParams).then(logResponse);
     });
 
-    it('gets gateway alerts (getGatewaysAlerts)', () => {
+    it('get gateway alerts (getGatewaysAlerts)', () => {
         const getGatewaysAlertsParams = {gatewaysn:ENV.GATEWAY_SN};
 
         return icomfort.getGatewaysAlerts(getGatewaysAlertsParams).then(logResponse);
     });
 
-    it('gets system info (getSystemsInfo)', () => {
+    it('get system info (getSystemsInfo)', () => {
         const getSystemsInfoParams = {UserId:ENV.USERNAME};
 
         return icomfort.getSystemsInfo(getSystemsInfoParams).then(logResponse);
     });
 
-    it('gets thermostat info list (getThermostatInfoList)', () => {
+    it('get thermostat info list (getThermostatInfoList)', () => {
         const getThermostatInfoListParams = {GatewaySN:ENV.GATEWAY_SN, TempUnit: 0};
 
         return icomfort.getThermostatInfoList(getThermostatInfoListParams).then(logResponse);
     });
 
-    it('gets thermostat lookup info (getThermostatLookupInfo)', () => {
+    it('get thermostat lookup info (getThermostatLookupInfo)', () => {
         const getThermostatLookupInfoParams = {gatewaysn:ENV.GATEWAY_SN, name: 'all'};
 
         return icomfort.getThermostatLookupInfo(getThermostatLookupInfoParams).then(logResponse);
     });
 
-    it('gets thermostat schedule info (getThermostatScheduleInfo)', () => {
+    it('get thermostat schedule info (getThermostatScheduleInfo)', () => {
         const getThermostatScheduleInfoParams = {gatewaysn:ENV.GATEWAY_SN};
 
         return icomfort.getThermostatScheduleInfo(getThermostatScheduleInfoParams).then(logResponse);
     });
 
-    it('validates user (validateUser)', () => {
+    it('validate user (validateUser)', () => {
         const validateUserData = {UserName:ENV.USERNAME};
 
         return icomfort.validateUser(validateUserData).then(logResponse);
     });
 
-    describe('updates thermostat settings (setThermostatInfo)', () => {
+    describe('update thermostat settings (setThermostatInfo)', () => {
         let currentSettings;
 
         before('get current settings',() => {
@@ -100,7 +124,7 @@ describe('tests the iComfort client', () => {
                 .then(logResponse);
         });
 
-        it('updates the temperature', () => {
+        it('update the temperature', () => {
             const newOptions = {
                 Cool_Set_Point: currentSettings.Cool_Set_Point+2,
                 Heat_Set_Point: currentSettings.Heat_Set_Point+2
@@ -129,7 +153,7 @@ describe('tests the iComfort client', () => {
         after(() => icomfort.setThermostatInfo(currentSettings));
     });
 
-    describe('changes away mode setting',() => {
+    describe('change away mode setting',() => {
         let currentSettings, currentAwayMode;
 
         before('get current settings',() => {
@@ -138,7 +162,7 @@ describe('tests the iComfort client', () => {
                 .then(logResponse);
         });
 
-        it('updates the away mode', () => {
+        it('update the away mode', () => {
             currentAwayMode = {
                 'awaymode': currentSettings.Away_Mode,
                 'coolsetpoint': currentSettings.Cool_Set_Point,
