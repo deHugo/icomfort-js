@@ -1,12 +1,14 @@
 'use strict';
 
-const base = require('./lib/base');
-const DEFS = require('./lib/definitions');
+const DEFS      = require('./lib/definitions');
+const base      = require('./lib/base');
+const newClient = require('./lib/newClient');
 
 module.exports = iComfortClient;
 
-function iComfortClient (auth) {
+function iComfortClient (auth={}, homeOpts={}) {
     const cachedAuth = {username:null, password: null, ...auth};
+    const homeOptions = {thermostatSerial: null, zoneNumber: null, ...homeOpts};
 
     return {
         getBuildingsInfo:          params => base.doGet(DEFS.getBuildingsInfo.path, cachedAuth, params),
@@ -23,5 +25,10 @@ function iComfortClient (auth) {
          */
         setProgramMode:            data   => base.doDashboardPost(DEFS.setModeChange.path, cachedAuth, '', data),
         setAwayMode:               data   => base.doPut(DEFS.setAwayMode.path, cachedAuth, data),
+
+        /**
+         * NEW, SIMPLER API SECTION
+         **/
+        ...newClient.makeInstance(cachedAuth, homeOptions)
     };
 }
