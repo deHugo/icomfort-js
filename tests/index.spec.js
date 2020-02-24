@@ -1,6 +1,7 @@
 'use strict';
 
 const assert = require('assert');
+const {expect} = require('chai');
 
 const iComfortClient = require('../src/index.js');
 
@@ -21,10 +22,19 @@ describe('exported iComfort client', () => {
         GATEWAY_SN: process.env['ICOMFORT_GATEWAY_SERIAL'],
     };
     const auth = {username: ENV.USERNAME, password: ENV.PASSWORD};
+    const homeOptions = {thermostatSerial: ENV.GATEWAY_SN};
 
     let icomfort;
 
-    before('creates an iComfort client', () => icomfort = new iComfortClient(auth));
+    before('creates an iComfort client', () => icomfort = new iComfortClient(auth, homeOptions));
+
+    describe('new simpler methods',() => {
+        it('gets current status',async () => {
+            const status = await icomfort.getCurrentStatus();
+
+            expect(status).to.be.a('object');
+        });
+    });
 
     it('instantiate the client without the \'new\' keyword', () => {
         const icomfortClient = iComfortClient(auth);
