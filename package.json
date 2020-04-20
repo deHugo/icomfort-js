@@ -26,8 +26,8 @@
   "license": "MIT",
   "devDependencies": {
     "eslint": "^6.8.0",
-    "mocha": "^7.0.1",
-    "nyc": "^15.0.0"
+    "mocha": "^7.1.1",
+    "nyc": "^15.0.1"
   },
   "dependencies": {
     "bent": "^7.1.0"
