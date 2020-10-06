@@ -25,12 +25,12 @@
   "author": "Daniel McQuiston <daniel.pro@dehugo.net>",
   "license": "MIT",
   "devDependencies": {
-    "eslint": "^6.8.0",
-    "mocha": "^7.1.1",
-    "nyc": "^15.0.1"
+    "eslint": "^7.10.0",
+    "mocha": "^8.1.3",
+    "nyc": "^15.1.0"
   },
   "dependencies": {
-    "bent": "^7.1.0"
+    "bent": "^7.3.10"
   },
   "engines": {
     "node": ">=4.3.2"
