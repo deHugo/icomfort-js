@@ -10,23 +10,23 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [8, 10, 12]
+        node-version: [10, 12, 14, 16]
 
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v1
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v1
-      with:
-        node-version: ${{ matrix.node-version }}
-    - name: Install and test
-      run: |
-        npm ci
-        npm test
-      env:
-        ICOMFORT_USERNAME: ${{ secrets.ICOMFORT_USERNAME }}
-        ICOMFORT_PASSWORD: ${{ secrets.ICOMFORT_PASSWORD }}
-        ICOMFORT_GATEWAY_SERIAL: ${{ secrets.ICOMFORT_GATEWAY_SERIAL }}
+      - name: Checkout code
+        uses: actions/checkout@v1
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+      - name: Install and test
+        run: |
+          npm ci
+          npm test
+        env:
+          ICOMFORT_USERNAME: ${{ secrets.ICOMFORT_USERNAME }}
+          ICOMFORT_PASSWORD: ${{ secrets.ICOMFORT_PASSWORD }}
+          ICOMFORT_GATEWAY_SERIAL: ${{ secrets.ICOMFORT_GATEWAY_SERIAL }}
 
   lint:
     name: Lint code
@@ -35,16 +35,16 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [12]
+        node-version: [16]
 
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v1
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v1
-      with:
-        node-version: ${{ matrix.node-version }}
-    - name: Install and lint
-      run: |
-        npm ci
-        npm run lint
+      - name: Checkout code
+        uses: actions/checkout@v1
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+      - name: Install and lint
+        run: |
+          npm ci
+          npm run lint
