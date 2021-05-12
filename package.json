@@ -19,19 +19,17 @@
   },
   "scripts": {
     "lint": "eslint --fix ./src/ ./tests/",
-    "coverage": "npx reload -b -p 5015 -d coverage/",
+    "coverage": "npx reload -b -d coverage/",
     "test": "mocha tests/*",
     "test:cov": "nyc npm t"
   },
   "author": "Daniel McQuiston <daniel.pro@dehugo.net>",
   "license": "MIT",
+  "dependencies": {},
   "devDependencies": {
-    "eslint": "^7.14.0",
-    "mocha": "^8.2.1",
+    "eslint": "^7.26.0",
+    "mocha": "^8.4.0",
     "nyc": "^15.1.0"
-  },
-  "dependencies": {
-    "bent": "^7.3.10"
   },
   "engines": {
     "node": ">=10"
