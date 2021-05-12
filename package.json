@@ -19,6 +19,7 @@
   },
   "scripts": {
     "lint": "eslint --fix ./src/ ./tests/",
+    "coverage": "npx reload -b -p 5015 -d coverage/",
     "test": "mocha tests/*",
     "test:cov": "nyc npm t"
   },
