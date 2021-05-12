@@ -12,7 +12,7 @@ describe('base http client wrapper', () => {
             const headerObject = base.credsToAuthHeader(creds);
 
             assert(Object.hasOwnProperty.call(headerObject, 'Authorization'), 'headers object does not have property \'Authorization\'');
-            assert.equal(typeof headerObject['Authorization'], 'string', '\'Authorization\' header is not a string');
+            assert.strictEqual(typeof headerObject['Authorization'], 'string', '\'Authorization\' header is not a string');
             assert(headerObject['Authorization'].includes('Basic'));
             assert(headerObject['Authorization'].includes('bWU6c2VjcmV0'));
         });
