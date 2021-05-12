@@ -8,10 +8,11 @@ const ICOMFORT = {
     baseHost: 'https://services.myicomfort.com',
     basePath: '/DBAcessService.svc',
 };
-const ICOMFORT_WEB = {
-    baseHost: 'https://www.myicomfort.com',
-    basePath: '/Dashboard.aspx',
-};
+// No longer used but kept because it may possibly be used in the future.
+// const ICOMFORT_WEB = {
+//     baseHost: 'https://www.myicomfort.com',
+//     basePath: '/Dashboard.aspx',
+// };
 
 const jsonRequest  = (method, url, body, opts) =>
     new Promise((resolve, reject) => {
@@ -77,7 +78,6 @@ const fullUrl = (server, endpoint, qs) => {
 module.exports = {
     fullUrl,
     jsonRequest,
-    doGet:           (path, creds, qs)       => jsonRequest('GET',  fullUrl(ICOMFORT, path, qs),  null, {creds}),
-    doDashboardPost: (path, creds,     body) => jsonRequest('POST', fullUrl(ICOMFORT_WEB, path),  body, {creds}),
-    doPut:           (path, creds, qs, body) => jsonRequest('PUT',  fullUrl(ICOMFORT, path, qs),  body, {creds}),
+    doGet: (path, creds, qs)       => jsonRequest('GET',  fullUrl(ICOMFORT, path, qs),  null, {creds}),
+    doPut: (path, creds, qs, body) => jsonRequest('PUT',  fullUrl(ICOMFORT, path, qs),  body, {creds}),
 };

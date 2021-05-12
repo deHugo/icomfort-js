@@ -21,7 +21,6 @@ function iComfortClient (auth) {
         /**
          * @deprecated since version 1.2.2
          */
-        setProgramMode:            data   => base.doDashboardPost(DEFS.setModeChange.path, cachedAuth, '', data),
         setAwayMode:               data   => base.doPut(DEFS.setAwayMode.path, cachedAuth, data),
     };
 }

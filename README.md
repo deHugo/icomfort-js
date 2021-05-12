@@ -31,7 +31,6 @@ const icomfort = new iComfortClient({username: 'valid username', password: 'supe
 * [getThermostatScheduleInfo](#getthermostatscheduleinfoparams)
 * [validateUser](#validateuserdata)
 * [setThermostatInfo](#setthermostatinfodata)
-* [setProgramMode](#setprogrammodedata)
 
 ### getBuildingsInfo(params)
 
@@ -477,12 +476,6 @@ If the update is successful, the number __0__ is returned.
 ```json
 0
 ```
-
-
-### setProgramMode(data) - **DEPRECATED AS OF VERSION 1.2.2**
-
-> Due to changes in Lennox's services, this method has been deprecated.
-
 
 ### setAwayMode(data)
 Updates away mode for a thermostat..

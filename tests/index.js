@@ -6,13 +6,13 @@ const iComfortClient = require('../src/index.js');
 
 const debugging = Boolean((process.env['NODE_DEBUG'] == 1));
 
-function logResponse (res) {
+const logResponse = method => res => {
     if (debugging) {
-        console.log(JSON.stringify(res, null, 2));
+        console.log(method, JSON.stringify(res, null, 2));
     }
 
     return res;
-}
+};
 
 describe('exported iComfort client', () => {
     const ENV = {
@@ -39,56 +39,55 @@ describe('exported iComfort client', () => {
         assert(Object.hasOwnProperty.call(icomfortClient, 'getThermostatScheduleInfo'), 'icomfortClient does not have property \'getThermostatScheduleInfo\'');
         assert(Object.hasOwnProperty.call(icomfortClient, 'validateUser'),              'icomfortClient does not have property \'validateUser\'');
         assert(Object.hasOwnProperty.call(icomfortClient, 'setThermostatInfo'),         'icomfortClient does not have property \'setThermostatInfo\'');
-        assert(Object.hasOwnProperty.call(icomfortClient, 'setProgramMode'),            'icomfortClient does not have property \'setProgramMode\'');
         assert(Object.hasOwnProperty.call(icomfortClient, 'setAwayMode'),               'icomfortClient does not have property \'setAwayMode\'');
     });
 
     it('get buildings info (getBuildingsInfo)', () => {
         const getBuildingsInfoParams = {UserId:ENV.USERNAME};
 
-        return icomfort.getBuildingsInfo(getBuildingsInfoParams).then(logResponse);
+        return icomfort.getBuildingsInfo(getBuildingsInfoParams).then(logResponse('getBuildingsInfo'));
     });
 
     it('get gateway info (getGatewayInfo)', () => {
         const getGatewayInfoParams = {GatewaySN:ENV.GATEWAY_SN, TempUnit: 0};
 
-        return icomfort.getGatewayInfo(getGatewayInfoParams).then(logResponse);
+        return icomfort.getGatewayInfo(getGatewayInfoParams).then(logResponse('getGatewayInfo'));
     });
 
     it('get gateway alerts (getGatewaysAlerts)', () => {
         const getGatewaysAlertsParams = {gatewaysn:ENV.GATEWAY_SN};
 
-        return icomfort.getGatewaysAlerts(getGatewaysAlertsParams).then(logResponse);
+        return icomfort.getGatewaysAlerts(getGatewaysAlertsParams).then(logResponse('getGatewaysAlerts'));
     });
 
     it('get system info (getSystemsInfo)', () => {
         const getSystemsInfoParams = {UserId:ENV.USERNAME};
 
-        return icomfort.getSystemsInfo(getSystemsInfoParams).then(logResponse);
+        return icomfort.getSystemsInfo(getSystemsInfoParams).then(logResponse('getSystemsInfo'));
     });
 
     it('get thermostat info list (getThermostatInfoList)', () => {
         const getThermostatInfoListParams = {GatewaySN:ENV.GATEWAY_SN, TempUnit: 0};
 
-        return icomfort.getThermostatInfoList(getThermostatInfoListParams).then(logResponse);
+        return icomfort.getThermostatInfoList(getThermostatInfoListParams).then(logResponse('getThermostatInfoList'));
     });
 
     it('get thermostat lookup info (getThermostatLookupInfo)', () => {
         const getThermostatLookupInfoParams = {gatewaysn:ENV.GATEWAY_SN, name: 'all'};
 
-        return icomfort.getThermostatLookupInfo(getThermostatLookupInfoParams).then(logResponse);
+        return icomfort.getThermostatLookupInfo(getThermostatLookupInfoParams).then(logResponse('getThermostatLookupInfo'));
     });
 
     it('get thermostat schedule info (getThermostatScheduleInfo)', () => {
         const getThermostatScheduleInfoParams = {gatewaysn:ENV.GATEWAY_SN};
 
-        return icomfort.getThermostatScheduleInfo(getThermostatScheduleInfoParams).then(logResponse);
+        return icomfort.getThermostatScheduleInfo(getThermostatScheduleInfoParams).then(logResponse('getThermostatScheduleInfo'));
     });
 
     it('validate user (validateUser)', () => {
         const validateUserData = {UserName:ENV.USERNAME};
 
-        return icomfort.validateUser(validateUserData).then(logResponse);
+        return icomfort.validateUser(validateUserData).then(logResponse('validateUser'));
     });
 
     describe('update thermostat settings (setThermostatInfo)', () => {
@@ -97,7 +96,7 @@ describe('exported iComfort client', () => {
         before('get current settings',() => {
             return getCurrentSettings(icomfort, ENV.GATEWAY_SN)
                 .then(res => currentSettings=res)
-                .then(logResponse);
+                .then(logResponse('before setThermostatInfo'));
         });
 
         it('update the temperature', () => {
@@ -107,26 +106,10 @@ describe('exported iComfort client', () => {
             };
             const newSettings = Object.assign({}, currentSettings, newOptions);
 
-            return icomfort.setThermostatInfo(newSettings).then(logResponse);
+            return icomfort.setThermostatInfo(newSettings).then(logResponse('setThermostatInfo'));
         });
 
-        xit('sets the program schedule mode', () => {
-            const programModeOptions = {
-                hidden_gateway_SN:          ENV.GATEWAY_SN,
-                zoneNumber:                 currentSettings.Zone_Number,
-                Current_HeatPoint:          currentSettings.Heat_Set_Point+2,
-                Current_CoolPoint:          currentSettings.Cool_Set_Point+2,
-                Current_FanValue:           currentSettings.Fan_Mode,
-                Program_Schedule_Mode:      (parseInt(currentSettings.Program_Schedule_Mode)) === 1 ? 0 : 1,
-                Operation_Mode:             currentSettings.Operation_Mode,
-                Program_Schedule_Selection: currentSettings.Program_Schedule_Selection,
-                Pref_Temp_Units:            currentSettings.Pref_Temp_Units,
-            };
-
-            return icomfort.setProgramMode(programModeOptions).then(logResponse);
-        });
-
-        after(() => icomfort.setThermostatInfo(currentSettings));
+        after(() => icomfort.setThermostatInfo(currentSettings).then(logResponse('after setThermostatInfo')));
     });
 
     describe('change away mode setting',() => {
@@ -135,7 +118,7 @@ describe('exported iComfort client', () => {
         before('get current settings',() => {
             return getCurrentSettings(icomfort, ENV.GATEWAY_SN)
                 .then(res => currentSettings=res)
-                .then(logResponse);
+                .then(logResponse('before away mode'));
         });
 
         it('update the away mode', () => {
@@ -154,10 +137,10 @@ describe('exported iComfort client', () => {
             };
             const newSettings = Object.assign({}, currentAwayMode, newOptions);
 
-            return icomfort.setAwayMode(newSettings).then(logResponse);
+            return icomfort.setAwayMode(newSettings).then(logResponse('away mode'));
         });
 
-        after(() => icomfort.setAwayMode(currentAwayMode).then(logResponse));
+        after(() => icomfort.setAwayMode(currentAwayMode).then(logResponse('after away mode')));
     });
 });
 
