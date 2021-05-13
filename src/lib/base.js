@@ -1,33 +1,70 @@
 'use strict';
 
-const bent = require('bent');
+const http  = require('http');
+const https  = require('https');
 const url  = require('url');
 
 const ICOMFORT = {
     baseHost: 'https://services.myicomfort.com',
     basePath: '/DBAcessService.svc',
 };
-const ICOMFORT_WEB = {
-    baseHost: 'https://www.myicomfort.com',
-    basePath: '/Dashboard.aspx',
-};
+// No longer used but kept because it may possibly be used in the future.
+// const ICOMFORT_WEB = {
+//     baseHost: 'https://www.myicomfort.com',
+//     basePath: '/Dashboard.aspx',
+// };
 
-const GET  = bent('GET', 'json');
-const POST = bent('POST', 'json');
-const PUT  = bent('PUT', 'json');
+const jsonRequest  = (method, url, body, opts) =>
+    new Promise((resolve, reject) => {
+        const options = {
+            ...opts,
+            method,
+        };
 
-const credsToBasicAuth = creds => Buffer.from(`${creds.username}:${creds.password}`).toString('base64');
-const credsToAuthHeader = creds => ({'Authorization': `Basic ${credsToBasicAuth(creds)}`});
+        if (opts.creds) options.auth = `${opts.creds.username}:${opts.creds.password}`;
 
-module.exports = {
-    fullUrl,
-    credsToAuthHeader,
-    doGet:           (path, auth, qs)       => GET(fullUrl(ICOMFORT, path, qs),  null, {...credsToAuthHeader(auth)}),
-    doDashboardPost: (path, auth,     body) => POST(fullUrl(ICOMFORT_WEB, path), body, {...credsToAuthHeader(auth)}),
-    doPut:           (path, auth, qs, body) => PUT(fullUrl(ICOMFORT, path, qs),  body, {...credsToAuthHeader(auth)}),
-};
+        const responseCallback = res => {
+            try {
+                let body = '';
 
-function fullUrl (server, endpoint, qs) {
+                res.setEncoding('utf8');
+                res.on('data', data => body+=data);
+
+                if (res.statusCode >= 400) {
+                    const err = new Error(res.statusMessage);
+                    err.name = 'ERR_HTTP';
+                    err.statusCode = res.statusCode;
+                    err.code = res.statusCode;
+                    reject(err);
+                }
+                else {
+                    res.on('end', () => resolve(JSON.parse(body)));
+                    res.on('error', reject);
+                }
+            } catch (err) {
+                reject(err);
+            }
+        };
+
+        let agent = https;
+
+        if (!/^https:/.test(url)) agent = http;
+
+        const req = agent.request(url, options, responseCallback);
+
+        req.on('error', reject);
+
+        req.setHeader('Accept', 'application/json');
+
+        if (method !== 'GET' && body) {
+            req.setHeader('Content-Type', 'application/json');
+            req.write(JSON.stringify(body));
+        }
+        req.end();
+    });
+
+
+const fullUrl = (server, endpoint, qs) => {
     let searchParams = '';
 
     if (typeof qs === 'object' && Object.values(qs).length) {
@@ -36,4 +73,11 @@ function fullUrl (server, endpoint, qs) {
     }
 
     return `${server.baseHost}${server.basePath}${endpoint}${searchParams}`;
-}
+};
+
+module.exports = {
+    fullUrl,
+    jsonRequest,
+    doGet: (path, creds, qs)       => jsonRequest('GET',  fullUrl(ICOMFORT, path, qs),  null, {creds}),
+    doPut: (path, creds, qs, body) => jsonRequest('PUT',  fullUrl(ICOMFORT, path, qs),  body, {creds}),
+};
