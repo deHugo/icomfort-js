@@ -1,6 +1,11 @@
 name: Verify
 
-on: [push]
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+  push:
+    tags:
+      - "v*.*.*"
 
 jobs:
   test:
