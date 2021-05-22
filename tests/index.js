@@ -2,13 +2,14 @@
 
 const assert = require('assert');
 
-const iComfortClient = require('../src/index.js');
+const iComfortClient = require('../src/index');
+const { stringToBase64 } = require('../src/lib/utils');
 
 const debugging = Boolean((process.env['NODE_DEBUG'] == 1));
 
-const logResponse = method => res => {
+const logResponse = source => res => {
     if (debugging) {
-        console.log(method, JSON.stringify(res, null, 2));
+        console.log(`[${source}]`, JSON.stringify(res, null, 2));
     }
 
     return res;
@@ -40,6 +41,20 @@ describe('exported iComfort client', () => {
         assert(Object.hasOwnProperty.call(icomfortClient, 'validateUser'),              'icomfortClient does not have property \'validateUser\'');
         assert(Object.hasOwnProperty.call(icomfortClient, 'setThermostatInfo'),         'icomfortClient does not have property \'setThermostatInfo\'');
         assert(Object.hasOwnProperty.call(icomfortClient, 'setAwayMode'),               'icomfortClient does not have property \'setAwayMode\'');
+    });
+
+    it.only('new manual info (newManualInfo)', async () => {
+        const client = await iComfortClient.iComfortClient({
+            username: ENV.USERNAME,
+            password: ENV.PASSWORD,
+            serial: ENV.GATEWAY_SN,
+            units: 'f',
+            zone: 0,
+            type: 'wifi'
+        });
+
+        return client.getStatus()
+            .then(logResponse('newManualInfo'));
     });
 
     it('get buildings info (getBuildingsInfo)', () => {

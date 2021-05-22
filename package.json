@@ -12,7 +12,8 @@
   ],
   "main": "./src/index.js",
   "files": [
-    "/src/**/*.js"
+    "/src/**/*.js",
+    "!/src/**/*.spec.js"
   ],
   "directories": {
     "lib": "./lib"
