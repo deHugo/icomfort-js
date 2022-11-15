@@ -26,8 +26,8 @@ jobs:
           node-version: ${{ matrix.node-version }}
       - name: Install and test
         run: |
-          npm ci
-          npm test
+          npm ci --quiet
+          npm run test:cov
         env:
           ICOMFORT_USERNAME: ${{ secrets.ICOMFORT_USERNAME }}
           ICOMFORT_PASSWORD: ${{ secrets.ICOMFORT_PASSWORD }}
@@ -38,18 +38,14 @@ jobs:
     timeout-minutes: 2
     runs-on: ubuntu-latest
 
-    strategy:
-      matrix:
-        node-version: [18]
-
     steps:
       - name: Checkout code
         uses: actions/checkout@v1
-      - name: Use Node.js ${{ matrix.node-version }}
+      - name: Use Node.js 18
         uses: actions/setup-node@v1
         with:
-          node-version: ${{ matrix.node-version }}
+          node-version: 18
       - name: Install and lint
         run: |
-          npm ci
+          npm ci --quiet
           npm run lint
