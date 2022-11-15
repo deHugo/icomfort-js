@@ -8,7 +8,7 @@ A client for the Lennox iComfort services implemented in JavaScript.
 
 Currently this module works natively in Node.js. Using a tool such as [browserify](http://browserify.org/), it could be used in modern web browsers.
 
-The minimum supported version of Node.js is 8.
+The minimum supported version of Node.js is 14.
 
 ## API
 
