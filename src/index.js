@@ -1,26 +1,36 @@
-'use strict';
+const ServicesMyicomfortComService = require('./lib/services_myicomfort_com');
+const WwwMyicomfortComService = require('./lib/www_myicomfort_com');
+const WwwLennoxicomfortComService = require('./lib/www_lennoxicomfort_com');
 
-const base = require('./lib/base');
-const DEFS = require('./lib/definitions');
 
 module.exports = iComfortClient;
 
-function iComfortClient (auth) {
+
+function iComfortClient (auth, type) {
     const cachedAuth = {username:null, password: null, ...auth};
 
-    return {
-        getBuildingsInfo:          params => base.doGet(DEFS.getBuildingsInfo.path, cachedAuth, params),
-        getGatewayInfo:            params => base.doGet(DEFS.getGatewayInfo.path, cachedAuth, params),
-        getGatewaysAlerts:         params => base.doGet(DEFS.getGatewaysAlerts.path, cachedAuth, params),
-        getSystemsInfo:            params => base.doGet(DEFS.getSystemsInfo.path, cachedAuth, params),
-        getThermostatInfoList:     params => base.doGet(DEFS.getThermostatInfoList.path, cachedAuth, params),
-        getThermostatLookupInfo:   params => base.doGet(DEFS.getThermostatLookupInfo.path, cachedAuth, params),
-        getThermostatScheduleInfo: params => base.doGet(DEFS.getThermostatScheduleInfo.path, cachedAuth, params),
-        validateUser:              params => base.doPut(DEFS.validateUser.path, cachedAuth, params, ''),
-        setThermostatInfo:         data   => base.doPut(DEFS.setThermostatInfo.path, cachedAuth, '', data),
-        /**
-         * @deprecated since version 1.2.2
-         */
-        setAwayMode:               data   => base.doPut(DEFS.setAwayMode.path, cachedAuth, data),
-    };
+    return clientTypes(type, cachedAuth);
 }
+
+
+const clientTypes = (type, cachedAuth) => {
+    let client;
+
+    switch(type) {
+    case '_INVALID_':
+        client = WwwMyicomfortComService(cachedAuth);
+        break;
+    case 's30':
+    case 'm30':
+    case 'e30':
+        client = WwwLennoxicomfortComService(cachedAuth);
+        break;
+    case 'wifi':
+    default:
+        client = ServicesMyicomfortComService(cachedAuth);
+        break;
+    }
+
+
+    return client;
+};
