@@ -42,6 +42,17 @@ describe('exported iComfort client', () => {
         assert(Object.hasOwnProperty.call(icomfortClient, 'setAwayMode'),               'icomfortClient does not have property \'setAwayMode\'');
     });
 
+
+    it('instantiates different client types', () => {
+        iComfortClient(auth);
+        iComfortClient(auth, 'wifi');
+        iComfortClient(auth, 's30');
+        iComfortClient(auth, 'm30');
+        iComfortClient(auth, 'e30');
+        iComfortClient(auth, '_INVALID_');
+    });
+
+
     it('get buildings info (getBuildingsInfo)', () => {
         const getBuildingsInfoParams = {UserId:ENV.USERNAME};
 
