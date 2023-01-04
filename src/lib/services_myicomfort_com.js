@@ -18,8 +18,4 @@ module.exports = cachedAuth => ({
     getThermostatScheduleInfo: params => doGet(ICOMFORT, DEFS.getThermostatScheduleInfo.path, cachedAuth, params),
     validateUser:              params => doPut(ICOMFORT, DEFS.validateUser.path, cachedAuth, params, ''),
     setThermostatInfo:         data   => doPut(ICOMFORT, DEFS.setThermostatInfo.path, cachedAuth, '', data),
-    /**
-     * @deprecated since version 1.2.2
-     */
-    setAwayMode:               data   => doPut(ICOMFORT, DEFS.setAwayMode.path, cachedAuth, data),
 });
