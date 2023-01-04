@@ -39,7 +39,6 @@ describe('exported iComfort client', () => {
         assert(Object.hasOwnProperty.call(icomfortClient, 'getThermostatScheduleInfo'), 'icomfortClient does not have property \'getThermostatScheduleInfo\'');
         assert(Object.hasOwnProperty.call(icomfortClient, 'validateUser'),              'icomfortClient does not have property \'validateUser\'');
         assert(Object.hasOwnProperty.call(icomfortClient, 'setThermostatInfo'),         'icomfortClient does not have property \'setThermostatInfo\'');
-        assert(Object.hasOwnProperty.call(icomfortClient, 'setAwayMode'),               'icomfortClient does not have property \'setAwayMode\'');
     });
 
 
